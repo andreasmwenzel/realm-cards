@@ -42,7 +42,6 @@ function useQuery() {
 }
 
 function Routes() {
-  console.log("Hello");
   let query = useQuery();
   //const { user, logOut, logInAnon } = useRealmApp();
   return (
