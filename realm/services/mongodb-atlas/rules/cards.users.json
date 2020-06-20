@@ -1,5 +1,4 @@
 {
-    "id": "5ee858118d0abc95f3112e89",
     "database": "cards",
     "collection": "users",
     "relationships": {
