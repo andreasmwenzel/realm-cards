@@ -41,7 +41,6 @@ export default function Navbar() {
               style={{ marginLeft: "0.5em" }}
               onClick={() => {
                 logOut();
-                history.push("/");
               }}
             >
               Log Out

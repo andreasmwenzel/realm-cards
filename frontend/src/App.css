@@ -4,6 +4,6 @@
 }
 
 /* Make everything after the navbar have a 3 rem margin top to avoid overlap */
-#Navbar.menu + div {
+#Navbar.menu + .container {
   margin-top: 3rem;
 }

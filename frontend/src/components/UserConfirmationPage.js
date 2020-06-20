@@ -21,7 +21,7 @@ export default function UserConfirm({ token, tokenId }) {
       console.log("Sending Confirmation");
       await confirmUser(token, tokenId);
       setMessage("Success! Redirecting");
-      return history.push("/");
+      return history.push("/login");
     } catch (err) {
       const { status, message } = parseAuthenticationError(err);
       setMessage(message);

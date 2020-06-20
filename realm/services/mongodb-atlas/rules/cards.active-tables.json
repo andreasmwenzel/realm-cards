@@ -1,0 +1,137 @@
+{
+    "id": "5ee579ce429fde12ad1b0edd",
+    "database": "cards",
+    "collection": "active-tables",
+    "relationships": {
+        "createdBy": {
+            "ref": "#/relationship/mongodb-atlas/cards/users",
+            "source_key": "createdBy",
+            "foreign_key": "_id",
+            "is_list": false
+        },
+        "players": {
+            "ref": "#/relationship/mongodb-atlas/cards/users",
+            "source_key": "players",
+            "foreign_key": "_id",
+            "is_list": true
+        }
+    },
+    "roles": [
+        {
+            "name": "atTable",
+            "apply_when": {
+                "%%user.data.email": {
+                    "%in": "players"
+                }
+            },
+            "fields": {
+                "createdBy": {},
+                "gameType": {},
+                "name": {},
+                "password": {}
+            },
+            "read": true,
+            "insert": false,
+            "delete": false,
+            "additional_fields": {}
+        },
+        {
+            "name": "hasEmail",
+            "apply_when": {
+                "%%user.data.email": {
+                    "%exists": true
+                }
+            },
+            "fields": {
+                "createdBy": {
+                    "read": true
+                },
+                "gameType": {
+                    "read": true
+                },
+                "name": {
+                    "read": true
+                },
+                "password": {}
+            },
+            "insert": false,
+            "delete": false,
+            "additional_fields": {
+                "read": true
+            }
+        },
+        {
+            "name": "default",
+            "apply_when": {},
+            "fields": {
+                "createdBy": {
+                    "read": true
+                },
+                "gameType": {
+                    "read": true
+                },
+                "name": {
+                    "read": true
+                },
+                "password": {}
+            },
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "additional_fields": {
+                "read": true
+            }
+        }
+    ],
+    "schema": {
+        "title": "active-table",
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            },
+            "createdBy": {
+                "bsonType": "objectId"
+            },
+            "gameType": {
+                "bsonType": "string"
+            },
+            "joinable": {
+                "bsonType": "bool"
+            },
+            "rules": {
+                "bsonType": "object",
+                "properties": {
+                    "players": {
+                        "bsonType": "int"
+                    }
+                }
+            },
+            "name": {
+                "bsonType": "string"
+            },
+            "players": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "objectId"
+                }
+            },
+            "positions": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "object",
+                    "properties": {
+                        "position": {
+                            "bsonType": "int"
+                        },
+                        "username": {
+                            "bsonType": "string"
+                        }
+                    }
+                }
+            },
+            "password": {
+                "bsonType": "string"
+            }
+        }
+    }
+}

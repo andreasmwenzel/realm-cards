@@ -43,10 +43,7 @@ function useQuery() {
 
 function Routes() {
   let query = useQuery();
-  const { user, logOut, logInAnon } = useRealmApp();
-  if (!user) {
-    logInAnon();
-  }
+  //const { user, logOut, logInAnon } = useRealmApp();
   return (
     <Switch>
       <Route exact path="/" component={LandingPage}></Route>

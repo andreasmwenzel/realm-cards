@@ -1,0 +1,65 @@
+{
+    "id": "5ee858118d0abc95f3112e89",
+    "database": "cards",
+    "collection": "users",
+    "relationships": {
+        "currentTable": {
+            "ref": "#/relationship/mongodb-atlas/cards/active-tables",
+            "source_key": "currentTable",
+            "foreign_key": "_id",
+            "is_list": false
+        }
+    },
+    "roles": [
+        {
+            "name": "owner",
+            "apply_when": {
+                "_id": "%%user.id"
+            },
+            "fields": {
+                "username": {
+                    "write": true
+                }
+            },
+            "read": true,
+            "insert": true,
+            "delete": true,
+            "additional_fields": {}
+        },
+        {
+            "name": "non-owner",
+            "apply_when": {},
+            "fields": {
+                "username": {
+                    "read": true
+                }
+            },
+            "write": false,
+            "insert": false,
+            "delete": false,
+            "additional_fields": {}
+        }
+    ],
+    "schema": {
+        "title": "user",
+        "required": [
+            "_id",
+            "email",
+            "username"
+        ],
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            },
+            "email": {
+                "bsonType": "string"
+            },
+            "username": {
+                "bsonType": "string"
+            },
+            "currentTable": {
+                "bsonType": "objectId"
+            }
+        }
+    }
+}

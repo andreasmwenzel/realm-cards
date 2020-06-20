@@ -25,6 +25,7 @@ const LoginPage = (props) => {
   // Keep track of form input state
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+  const [submitting, setSubmitting] = React.useState(false);
   // Whenever the mode changes, clear the form inputs
   React.useEffect(() => {
     setEmail("");
@@ -63,13 +64,15 @@ const LoginPage = (props) => {
         }));
         break;
     }
+    setSubmitting(false);
   }
 
   const handleLogin = async () => {
+    setSubmitting(true);
     setError((e) => ({ ...e, password: undefined }));
     try {
       await app.logIn(email, password);
-      return history.push("/");
+      return history.go(-1);
     } catch (err) {
       handleAuthenticationError(err);
     }
@@ -89,6 +92,7 @@ const LoginPage = (props) => {
     setError((e) => ({ ...e, password: undefined }));
     if (isValidEmailAddress) {
       try {
+        setSubmitting(true);
         // Register the user and, if successful, log them in
         await app.registerUser(email, password);
         //TODO: Show a need confirmation message
@@ -138,6 +142,8 @@ const LoginPage = (props) => {
                 color="grey"
                 fluid
                 size="large"
+                disabled={submitting}
+                loading={submitting}
                 onClick={() => handleLogin()}
               >
                 Login
@@ -147,6 +153,8 @@ const LoginPage = (props) => {
                 color="grey"
                 fluid
                 size="large"
+                disabled={submitting}
+                loading={submitting}
                 onClick={() => handleRegistration()}
               >
                 Sign Up
