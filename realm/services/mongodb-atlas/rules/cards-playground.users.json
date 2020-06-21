@@ -1,0 +1,52 @@
+{
+    "database": "cards-playground",
+    "collection": "users",
+    "roles": [
+        {
+            "name": "isUser",
+            "apply_when": {
+                "_id": "%%user.id"
+            },
+            "fields": {
+                "username": {
+                    "write": true
+                }
+            },
+            "read": true,
+            "insert": false,
+            "delete": false,
+            "additional_fields": {}
+        },
+        {
+            "name": "default",
+            "apply_when": {},
+            "fields": {
+                "username": {
+                    "read": true
+                }
+            },
+            "insert": true,
+            "delete": true,
+            "additional_fields": {}
+        }
+    ],
+    "schema": {
+        "title": "user",
+        "required": [
+            "_id",
+            "email",
+            "username"
+        ],
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            },
+            "email": {
+                "bsonType": "string"
+            },
+            "username": {
+                "bsonType": "string"
+            }
+        }
+    }
+}

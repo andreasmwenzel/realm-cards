@@ -1,6 +1,5 @@
 {
     "name": "createNewTable",
     "private": true,
-    "run_as_system": true,
-    "can_evaluate": {}
+    "run_as_system": true
 }

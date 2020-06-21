@@ -1,7 +1,20 @@
-//This function should only ever be called from the requestNewTable webhook in cards service, which verifies integrity of table
-exports = function(table){
-  const cluster = context.services.get("mongodb-atlas");
-  var tables = cluster.db("cards").collection("active-tables");
-  tables.insertOne(table);
-  return; 
+exports = async function (userId, table) {
+  const newTable = {
+    name: table.name,
+    gameType: table.gameType,
+    rules: {
+      players: table.rules.players,
+    },
+    createdBy: BSON.ObjectId(userId),
+    status: "created",
+    playerUserIds: [],
+    tableLogs: ["Created Table"],
+    lastModified: new Date(),
+  };
+  const response = await context.services
+    .get("mongodb-atlas")
+    .db(context.values.get("db-name"))
+    .collection("active-tables")
+    .insertOne(newTable);
+  return { tableId: response.insertedId };
 };

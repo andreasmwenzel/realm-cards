@@ -1,46 +1,17 @@
 {
   "database": "cards",
-  "collection": "active-tables",
+  "collection": "archived-tables",
   "roles": [
-    {
-      "name": "isAtTable",
-      "apply_when": {
-        "%%user.data.id": {
-          "%in": "playerUserIds"
-        }
-      },
-      "fields": {
-        "createdBy": {},
-        "password": {
-          "read": true
-        },
-        "playerUserIds": {},
-        "tableLogs": {}
-      },
-      "insert": false,
-      "delete": false,
-      "additional_fields": {
-        "read": true
-      }
-    },
     {
       "name": "default",
       "apply_when": {},
-      "fields": {
-        "createdBy": {},
-        "password": {},
-        "playerUserIds": {},
-        "tableLogs": {}
-      },
       "insert": false,
       "delete": false,
-      "additional_fields": {
-        "read": true
-      }
+      "additional_fields": {}
     }
   ],
   "schema": {
-    "title": "active-table",
+    "title": "archived-table",
     "required": ["_id", "createdBy", "gameType", "status", "rules"],
     "properties": {
       "_id": {

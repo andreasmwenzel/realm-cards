@@ -1,5 +1,5 @@
 {
-    "name": "createNewUserDocument",
+    "name": "createUserDocument",
     "private": true,
     "can_evaluate": {}
 }

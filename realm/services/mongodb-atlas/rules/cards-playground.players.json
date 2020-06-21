@@ -1,0 +1,94 @@
+{
+    "database": "cards-playground",
+    "collection": "players",
+    "relationships": {
+        "table": {
+            "ref": "#/relationship/mongodb-atlas/cards-playground/active-tables",
+            "source_key": "table",
+            "foreign_key": "_id",
+            "is_list": false
+        },
+        "user": {
+            "ref": "#/relationship/mongodb-atlas/cards-playground/users",
+            "source_key": "user",
+            "foreign_key": "_id",
+            "is_list": false
+        }
+    },
+    "roles": [
+        {
+            "name": "isUser",
+            "apply_when": {
+                "user": "%%user.id"
+            },
+            "fields": {
+                "hand": {},
+                "user": {}
+            },
+            "read": true,
+            "insert": false,
+            "delete": false,
+            "additional_fields": {}
+        },
+        {
+            "name": "hasEmail",
+            "apply_when": {
+                "%%user.data.email": {
+                    "%exists": true
+                }
+            },
+            "fields": {
+                "hand": {},
+                "user": {}
+            },
+            "insert": false,
+            "delete": false,
+            "additional_fields": {
+                "read": true
+            }
+        },
+        {
+            "name": "default",
+            "apply_when": {},
+            "fields": {
+                "hand": {},
+                "user": {}
+            },
+            "insert": false,
+            "delete": false,
+            "additional_fields": {}
+        }
+    ],
+    "schema": {
+        "title": "player",
+        "required": [
+            "_id",
+            "user",
+            "table"
+        ],
+        "description": "a user creates a player object when joining a table",
+        "properties": {
+            "_id": {
+                "bsonType": "objectId"
+            },
+            "user": {
+                "bsonType": "objectId"
+            },
+            "table": {
+                "bsonType": "objectId"
+            },
+            "position": {
+                "bsonType": "int"
+            },
+            "ready": {
+                "bsonType": "boolean"
+            },
+            "hand": {
+                "bsonType": "array",
+                "items": {
+                    "bsonType": "string"
+                }
+            }
+        }
+    }
+}
