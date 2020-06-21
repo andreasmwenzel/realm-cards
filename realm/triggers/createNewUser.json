@@ -1,12 +1,10 @@
 {
-    "name": "createNewUser",
-    "type": "AUTHENTICATION",
-    "config": {
-        "operation_type": "CREATE",
-        "providers": [
-            "local-userpass"
-        ]
-    },
-    "function_name": "createUserDocument",
-    "disabled": false
+  "name": "createNewUser",
+  "type": "AUTHENTICATION",
+  "config": {
+    "operation_type": "CREATE",
+    "providers": ["local-userpass"]
+  },
+  "function_name": "createUserDocument",
+  "disabled": false
 }

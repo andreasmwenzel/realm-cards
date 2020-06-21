@@ -1,5 +1,5 @@
 {
-    "name": "deleteUserDocument",
-    "private": true,
-    "can_evaluate": {}
+  "name": "deleteUserDocument",
+  "private": true,
+  "can_evaluate": {}
 }

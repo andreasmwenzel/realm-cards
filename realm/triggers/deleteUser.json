@@ -1,12 +1,10 @@
 {
-    "name": "deleteUser",
-    "type": "AUTHENTICATION",
-    "config": {
-        "operation_type": "DELETE",
-        "providers": [
-            "local-userpass"
-        ]
-    },
-    "function_name": "deleteUserDocument",
-    "disabled": false
+  "name": "deleteUser",
+  "type": "AUTHENTICATION",
+  "config": {
+    "operation_type": "DELETE",
+    "providers": ["local-userpass"]
+  },
+  "function_name": "deleteUserDocument",
+  "disabled": false
 }
