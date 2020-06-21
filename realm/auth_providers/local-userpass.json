@@ -1,15 +1,15 @@
 {
-    "name": "local-userpass",
-    "type": "local-userpass",
-    "config": {
-        "autoConfirm": false,
-        "confirmEmailSubject": "Confirm your email address to Realm of Cards",
-        "emailConfirmationUrl": "https://localhost:3000/user/confirm",
-        "resetFunctionName": "resetFunc",
-        "resetPasswordSubject": "",
-        "resetPasswordUrl": "https://localhost:3000/user/reset",
-        "runConfirmationFunction": false,
-        "runResetFunction": false
-    },
-    "disabled": false
+  "name": "local-userpass",
+  "type": "local-userpass",
+  "config": {
+    "autoConfirm": false,
+    "confirmEmailSubject": "Confirm your email address to Realm of Cards",
+    "emailConfirmationUrl": "https://localhost:3000/user/confirm",
+    "resetFunctionName": "resetFunc",
+    "resetPasswordSubject": "",
+    "resetPasswordUrl": "https://localhost:3000/user/reset",
+    "runConfirmationFunction": false,
+    "runResetFunction": false
+  },
+  "disabled": false
 }

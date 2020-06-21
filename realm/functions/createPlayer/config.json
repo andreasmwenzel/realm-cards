@@ -1,5 +1,5 @@
 {
-    "name": "createPlayer",
-    "private": true,
-    "run_as_system": true
+  "name": "createPlayer",
+  "private": true,
+  "run_as_system": true
 }

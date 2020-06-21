@@ -1,0 +1,75 @@
+{
+  "database": "cards-develop",
+  "collection": "archived-tables",
+  "roles": [
+    {
+      "name": "default",
+      "apply_when": {},
+      "insert": false,
+      "delete": false,
+      "additional_fields": {}
+    }
+  ],
+  "schema": {
+    "title": "archived-table",
+    "required": ["_id", "createdBy", "gameType", "status", "rules"],
+    "properties": {
+      "_id": {
+        "bsonType": "objectId"
+      },
+      "name": {
+        "bsonType": "string"
+      },
+      "gameType": {
+        "bsonType": "string",
+        "enum": ["Hearts"],
+        "description": "specifies the game type. Only Hearts is supported"
+      },
+      "rules": {
+        "bsonType": "object",
+        "properties": {
+          "players": {
+            "bsonType": "int",
+            "minimum": {
+              "$numberInt": "1"
+            },
+            "maximum": {
+              "$numberInt": "10"
+            }
+          }
+        }
+      },
+      "status": {
+        "bsonType": "string",
+        "enum": [
+          "created",
+          "waiting for players",
+          "waiting for start",
+          "in progress",
+          "player disconnected",
+          "closing"
+        ],
+        "description": "describes state of the table"
+      },
+      "createdBy": {
+        "bsonType": "objectId",
+        "desciption": "id of the user who created the table"
+      },
+      "host": {
+        "bsonType": "objectId",
+        "desciption": "id of the player who is listed as the host of the game"
+      },
+      "password": {
+        "bsonType": "string",
+        "description": "optional password string to only allow players with password to join"
+      },
+      "playerUserIds": {
+        "bsonType": "array",
+        "description": "holds ids of current users at table. Not viewable to anyone but system. Used to profile authentication to view table data",
+        "items": {
+          "bsonType": "objectId"
+        }
+      }
+    }
+  }
+}
