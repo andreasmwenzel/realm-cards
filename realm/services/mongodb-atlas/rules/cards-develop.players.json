@@ -3,13 +3,13 @@
   "collection": "players",
   "relationships": {
     "table": {
-      "ref": "#/relationship/mongodb-atlas/cards-playground/active-tables",
+      "ref": "#/relationship/mongodb-atlas/cards-develop/active-tables",
       "source_key": "table",
       "foreign_key": "_id",
       "is_list": false
     },
     "user": {
-      "ref": "#/relationship/mongodb-atlas/cards-playground/users",
+      "ref": "#/relationship/mongodb-atlas/cards-develop/users",
       "source_key": "user",
       "foreign_key": "_id",
       "is_list": false
