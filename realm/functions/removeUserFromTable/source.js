@@ -1,7 +1,5 @@
 exports = async function (userId, tableId) {
-  const db = context.services
-    .get("mongodb-atlas")
-    .db(context.values.get("db-name"));
+  const db = context.services.get("mongodb-atlas").db("cards");
   const tablesCollection = db.collection("active-tables");
   const playersCollection = db.collection("players");
   let [table, players] = await Promise.all([

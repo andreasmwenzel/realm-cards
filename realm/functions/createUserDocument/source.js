@@ -1,6 +1,6 @@
 exports = async function createNewUserDocument({ user }) {
   const cluster = context.services.get("mongodb-atlas");
-  const users = cluster.db(context.values.get("db-name")).collection("users");
+  const users = cluster.db("cards").collection("users");
   const email = user.data.email;
   const n = email.indexOf("@");
   let username;

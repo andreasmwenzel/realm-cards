@@ -72,6 +72,7 @@ const LoginPage = (props) => {
     setError((e) => ({ ...e, password: undefined }));
     try {
       await app.logIn(email, password);
+
       return history.go(-1);
     } catch (err) {
       handleAuthenticationError(err);
