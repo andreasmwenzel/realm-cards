@@ -1,6 +1,6 @@
 {
   "database": "cards",
-  "collection": "active-tables",
+  "collection": "archived-tables",
   "roles": [
     {
       "name": "default",
