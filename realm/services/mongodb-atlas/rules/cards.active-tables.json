@@ -92,10 +92,6 @@
         "bsonType": "objectId",
         "desciption": "id of the user who created the table"
       },
-      "host": {
-        "bsonType": "objectId",
-        "desciption": "id of the player who is listed as the host of the game"
-      },
       "password": {
         "bsonType": "string",
         "description": "optional password string to only allow players with password to join"
