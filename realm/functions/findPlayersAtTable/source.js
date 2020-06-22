@@ -2,7 +2,7 @@ exports = async function (id) {
   console.log("running findPlayersAtTable");
   const playersCollection = context.services
     .get("mongodb-atlas")
-    .db(context.values.get("db-name"))
+    .db("cards")
     .collection("players");
 
   const players = await playersCollection

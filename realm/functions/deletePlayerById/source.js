@@ -1,7 +1,7 @@
 exports = async function (playerId) {
   await context.services
     .get("mongodb-atlas")
-    .db(context.values.get("db-name"))
+    .db("cards")
     .collection("players")
     .deleteOne({ _id: BSON.ObjectId(playerId) });
 };

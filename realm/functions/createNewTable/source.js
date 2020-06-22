@@ -13,7 +13,7 @@ exports = async function (userId, table) {
   };
   const response = await context.services
     .get("mongodb-atlas")
-    .db(context.values.get("db-name"))
+    .db("cards")
     .collection("active-tables")
     .insertOne(newTable);
   return { tableId: response.insertedId };

@@ -7,14 +7,7 @@ export default function GamesPage() {
   const { user } = useRealmApp();
   async function doClick() {
     console.log("click");
-
-    const table = {
-      name: "fromClick",
-      gameType: "Hearts",
-      rules: { players: 4 },
-    };
-
-    console.log(user.functions);
+    console.log(user);
   }
   return (
     <Segment
