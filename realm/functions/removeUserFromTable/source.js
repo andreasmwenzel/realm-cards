@@ -1,4 +1,4 @@
-exports = async function (userId, tableId) {
+exports = async function (userId, playerId, tableId) {
   const db = context.services.get("mongodb-atlas").db("cards");
   const tablesCollection = db.collection("active-tables");
   const playersCollection = db.collection("players");
@@ -28,8 +28,13 @@ exports = async function (userId, tableId) {
     },
     {
       $set: { status: tableStatus },
-      $pull: { playerUserIds: BSON.ObjectId(userId) },
-      $push: { tableLogs: `Removed player. Table status now: ${tableStatus}` },
+      $pull: {
+        playerUserIds: BSON.ObjectId(userId),
+        players: BSON.ObjectId(playerId),
+      },
+      $push: {
+        tableLogs: `Removed player ${playerId}. Table status now: ${tableStatus}`,
+      },
       $currentDate: { lastModified: true },
     }
   );

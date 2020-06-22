@@ -14,6 +14,7 @@ exports = async function (payload, response) {
   const table = await context.functions.execute(
     "removeUserFromTable",
     userId,
+    playerId,
     tableId
   );
 

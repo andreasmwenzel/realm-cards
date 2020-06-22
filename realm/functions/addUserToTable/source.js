@@ -28,7 +28,10 @@ exports = async function (
       { _id: BSON.ObjectId(tableId) },
       {
         $set: { status: "waiting for players" },
-        $addToSet: { playerUserIds: BSON.ObjectId(userId) },
+        $addToSet: {
+          playerUserIds: BSON.ObjectId(userId),
+          players: BSON.ObjectId(playerId),
+        },
         $push: {
           tableLogs:
             "Added first player to table, set state to waitng for players",
@@ -41,7 +44,10 @@ exports = async function (
       { _id: BSON.ObjectId(tableId) },
       {
         $set: { status: "waiting for start" },
-        $addToSet: { playerUserIds: BSON.ObjectId(userId) },
+        $addToSet: {
+          playerUserIds: BSON.ObjectId(userId),
+          players: BSON.ObjectId(playerId),
+        },
         $push: {
           tableLogs:
             "Added final player to table, set state to waiting for start",
@@ -53,7 +59,10 @@ exports = async function (
     await tablesCollection.updateOne(
       { _id: BSON.ObjectId(tableId) },
       {
-        $addToSet: { playerUserIds: BSON.ObjectId(userId) },
+        $addToSet: {
+          playerUserIds: BSON.ObjectId(userId),
+          players: BSON.ObjectId(playerId),
+        },
         $push: { tableLogs: "Added a player to table" },
         $currentDate: { lastModified: true },
       }

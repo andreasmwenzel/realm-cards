@@ -90,10 +90,7 @@ exports = async function (payload, response) {
       maxPlayers
     );
   } catch (err) {
-    await context.functions.execute(
-      "deletePlayerById",
-      player.insertedId.toString()
-    );
+    await context.functions.execute("deletePlayerById", playerId);
     throw err;
   }
 
