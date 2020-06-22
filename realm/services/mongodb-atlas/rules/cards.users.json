@@ -55,8 +55,7 @@
         "bsonType": "string"
       },
       "currentTable": {
-        "bsonType": "objectId",
-        "description": "Table the current user is currently assigned to"
+        "bsonType": "objectId"
       },
       "hand": {
         "bsonType": "array",
