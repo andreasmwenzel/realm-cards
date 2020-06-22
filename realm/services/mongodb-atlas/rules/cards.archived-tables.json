@@ -11,7 +11,7 @@
     }
   ],
   "schema": {
-    "title": "active-table",
+    "title": "archived-table",
     "required": ["_id", "createdBy", "gameType", "status", "rules"],
     "properties": {
       "_id": {
