@@ -3,7 +3,7 @@
   "collection": "users",
   "relationships": {
     "currentTable": {
-      "ref": "#/relationship/mongodb-atlas/cards/active0tables",
+      "ref": "#/relationship/mongodb-atlas/cards/active-tables",
       "source_key": "currentTable",
       "foreign_key": "_id",
       "is_list": true
