@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as RealmWeb from "realm-web";
 
-const REALM_APP_ID = "realm-cards-develop-beaea";
+const REALM_APP_ID = "realm-card-zacxr";
 const app = new RealmWeb.App({ id: REALM_APP_ID });
 
 const RealmAppContext = React.createContext(undefined);

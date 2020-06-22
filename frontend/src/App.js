@@ -47,7 +47,11 @@ function Routes() {
   return (
     <Switch>
       <Route exact path="/" component={LandingPage}></Route>
-      <Route path="/games/" component={GamesPage}></Route>
+      <Route path="/games/">
+        <RequireAuthentication>
+          <GamesPage />
+        </RequireAuthentication>
+      </Route>
       <Route path="/signup/">
         <LoginPage initialMode="signup" />
       </Route>
@@ -72,21 +76,17 @@ function Routes() {
   );
 }
 
-function RequireAuthentication() {
+function RequireAuthentication({ children }) {
   const app = useRealmApp();
   console.log(app);
   //console.log(app);
 
   if (!app.user) {
-    app.logIn("joe@shmo.com", "password");
+    app.logIn("seven@seven.com", "password");
   }
 
   return app.user ? (
-    <RealmApolloProvider>
-      <div style={{ marginTop: "7em" }}>
-        <Body />
-      </div>
-    </RealmApolloProvider>
+    <RealmApolloProvider>{children}</RealmApolloProvider>
   ) : (
     //TODO Make this a spinning loading thingy
     <Loader active inline="centered" />

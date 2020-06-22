@@ -73,7 +73,7 @@ const LoginPage = (props) => {
     try {
       await app.logIn(email, password);
 
-      return history.go(-1);
+      return history.push("/games");
     } catch (err) {
       handleAuthenticationError(err);
     }

@@ -13,6 +13,12 @@ export const GET_TABLES = gql`
       rules {
         players
       }
+      players {
+        user {
+          _id
+          username
+        }
+      }
     }
   }
 `;
