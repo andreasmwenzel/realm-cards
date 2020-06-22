@@ -2,7 +2,7 @@
   "database": "cards",
   "collection": "active-tables",
   "relationships": {
-    "players.id": {
+    "players": {
       "ref": "#/relationship/mongodb-atlas/cards/users",
       "source_key": "players.id",
       "foreign_key": "_id",
