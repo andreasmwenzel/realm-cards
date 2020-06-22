@@ -6,6 +6,9 @@
   "can_evaluate": {
     "%%user.data.email": {
       "%exists": true
+    },
+    "%%request.requestHeaders.Authorization": {
+      "%eq": "%%user.identities.0.id"
     }
   },
   "options": {
