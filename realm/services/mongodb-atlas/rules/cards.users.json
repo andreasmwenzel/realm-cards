@@ -1,6 +1,14 @@
 {
   "database": "cards",
   "collection": "users",
+  "relationships": {
+    "currentTable": {
+      "ref": "#/relationship/mongodb-atlas/cards/active0tables",
+      "source_key": "currentTable",
+      "foreign_key": "_id",
+      "is_list": true
+    }
+  },
   "roles": [
     {
       "name": "isUser",
@@ -23,10 +31,13 @@
       "fields": {
         "username": {
           "read": true
+        },
+        "email": {
+          "read": true
         }
       },
-      "insert": true,
-      "delete": true,
+      "insert": false,
+      "delete": false,
       "additional_fields": {}
     }
   ],
@@ -42,6 +53,16 @@
       },
       "username": {
         "bsonType": "string"
+      },
+      "currentTable": {
+        "bsonType": "objectId",
+        "description": "Table the current user is currently assigned to"
+      },
+      "hand": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "string"
+        }
       }
     }
   }

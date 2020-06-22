@@ -1,6 +1,6 @@
 {
   "database": "cards",
-  "collection": "archived-tables",
+  "collection": "active-tables",
   "roles": [
     {
       "name": "default",
@@ -11,7 +11,7 @@
     }
   ],
   "schema": {
-    "title": "archived-table",
+    "title": "active-table",
     "required": ["_id", "createdBy", "gameType", "status", "rules"],
     "properties": {
       "_id": {
@@ -58,6 +58,36 @@
       "password": {
         "bsonType": "string",
         "description": "optional password string to only allow players with password to join"
+      },
+      "players": {
+        "bsonType": "array",
+        "description": "List of current players at the table",
+        "items": {
+          "bsonType": "object",
+          "properties": {
+            "user": {
+              "bsonType": "objectId"
+            },
+            "username": {
+              "bsonType": "string"
+            },
+            "position": {
+              "bsonType": "int"
+            },
+            "ready": {
+              "bsonType": "bool"
+            }
+          }
+        }
+      },
+      "log": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "string"
+        }
+      },
+      "lastModified": {
+        "bsonType": "date"
       }
     }
   }

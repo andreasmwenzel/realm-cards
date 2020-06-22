@@ -1,36 +1,7 @@
 {
   "database": "cards",
   "collection": "active-tables",
-  "relationships": {
-    "players": {
-      "ref": "#/relationship/mongodb-atlas/cards/players",
-      "source_key": "players",
-      "foreign_key": "_id",
-      "is_list": true
-    }
-  },
   "roles": [
-    {
-      "name": "isAtTable",
-      "apply_when": {
-        "%%user.data.id": {
-          "%in": ["playerUserIds"]
-        }
-      },
-      "fields": {
-        "createdBy": {},
-        "password": {
-          "read": true
-        },
-        "playerUserIds": {},
-        "tableLogs": {}
-      },
-      "insert": false,
-      "delete": false,
-      "additional_fields": {
-        "read": true
-      }
-    },
     {
       "name": "default",
       "apply_when": {},
@@ -96,19 +67,35 @@
         "bsonType": "string",
         "description": "optional password string to only allow players with password to join"
       },
-      "playerUserIds": {
-        "bsonType": "array",
-        "description": "holds ids of current users at table. Not viewable to anyone but system. Used to profile authentication to view table data",
-        "items": {
-          "bsonType": "objectId"
-        }
-      },
       "players": {
         "bsonType": "array",
         "description": "List of current players at the table",
         "items": {
-          "bsonType": "objectId"
+          "bsonType": "object",
+          "properties": {
+            "user": {
+              "bsonType": "objectId"
+            },
+            "username": {
+              "bsonType": "string"
+            },
+            "position": {
+              "bsonType": "int"
+            },
+            "ready": {
+              "bsonType": "bool"
+            }
+          }
         }
+      },
+      "log": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "string"
+        }
+      },
+      "lastModified": {
+        "bsonType": "date"
       }
     }
   }
