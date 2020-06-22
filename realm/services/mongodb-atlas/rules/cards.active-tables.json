@@ -14,7 +14,7 @@
       "name": "isAtTable",
       "apply_when": {
         "%%user.data.id": {
-          "%in": "playerUserIds"
+          "%in": ["playerUserIds"]
         }
       },
       "fields": {
