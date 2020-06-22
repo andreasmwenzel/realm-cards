@@ -1,6 +1,14 @@
 {
   "database": "cards",
   "collection": "active-tables",
+  "relationships": {
+    "players": {
+      "ref": "#/relationship/mongodb-atlas/cards/players",
+      "source_key": "players",
+      "foreign_key": "_id",
+      "is_list": true
+    }
+  },
   "roles": [
     {
       "name": "isAtTable",
@@ -95,6 +103,13 @@
       "playerUserIds": {
         "bsonType": "array",
         "description": "holds ids of current users at table. Not viewable to anyone but system. Used to profile authentication to view table data",
+        "items": {
+          "bsonType": "objectId"
+        }
+      },
+      "players": {
+        "bsonType": "array",
+        "description": "List of current players at the table",
         "items": {
           "bsonType": "objectId"
         }
