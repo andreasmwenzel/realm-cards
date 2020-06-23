@@ -24,7 +24,7 @@ exports = async function (user) {
       break;
     case "waiting for players":
     case "closing":
-      if (table.players.length === 0) {
+      if (table.players.length === 1) {
         newStatus = "archiving";
       }
       break;
