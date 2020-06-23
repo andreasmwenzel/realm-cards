@@ -1,5 +1,5 @@
 {
-  "name": "removeUserFromTable",
+  "name": "removeTableFromUser",
   "private": true,
   "run_as_system": true
 }
