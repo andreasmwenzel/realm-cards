@@ -15,8 +15,8 @@
       "apply_when": {
         "%%true": {
           "%function": {
-            "name": "isAtTable",
-            "arguments": ["%%user.data.id", "players"]
+            "arguments": ["%%user.id", "%%root.players"],
+            "name": "isAtTable"
           }
         }
       },
