@@ -5,7 +5,7 @@ exports = async function (user, table) {
     rules: {
       players: table.rules.players,
     },
-    createdBy: user_id,
+    createdBy: user._id,
     status: "created",
     playerUserIds: [],
     tableLogs: ["Created Table"],
