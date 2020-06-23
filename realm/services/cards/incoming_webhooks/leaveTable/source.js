@@ -9,7 +9,7 @@ exports = async function (payload, response) {
     resp.message = `Table ${user.currentTable} removed from user ${user._id}`;
     try {
       await context.functions.execute("removeUserFromTable", user);
-      resp.message.append(` AND user removed from table`);
+      resp.message = resp.message + ` AND user removed from table`;
     } catch (err) {
       resp.error = err;
     }
