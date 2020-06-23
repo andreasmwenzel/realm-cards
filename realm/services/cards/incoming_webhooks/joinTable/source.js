@@ -18,6 +18,9 @@ exports = async function (payload, response) {
     tables.findOne({ _id: tableId }, { rules: 1, players: 1, status: 1 }),
   ]);
 
+  console.log(`user: ${JSON.stringify(user)}`);
+  console.log(`table: ${JSON.stringify(table)}`);
+
   //check if user is in a game
   if (user.currentTable) {
     throw new Error("Unable to join table : user is already in a game");
