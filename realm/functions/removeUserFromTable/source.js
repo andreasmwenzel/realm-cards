@@ -3,6 +3,7 @@ exports = async function (user) {
   const db = context.services.get("mongodb-atlas").db("cards");
   const tables = db.collection("active-tables");
 
+  console.log(`User: ${JSON.stringify(user)}`);
   const table = await tables.findOneAndUpdate(
     { _id: user.currentTable },
     { $pull: { players: { id: user._id } } },
