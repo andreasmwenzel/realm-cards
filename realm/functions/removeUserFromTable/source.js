@@ -45,7 +45,8 @@ exports = async function (user) {
     }
   );
 
-  if (table.players.length === 0) {
+  if (table.players.length === 1) {
+    //removing last user
     const finishedTable = await tablesCollection.findOneAndDelete({
       _id: table._id,
     });
