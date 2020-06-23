@@ -7,7 +7,7 @@ exports = async function (table, user, position) {
   const player = {
     id: user._id,
     username: user.username,
-    position: position,
+    position: NumberInt(position),
     ready: false,
   };
 
