@@ -1,4 +1,5 @@
 exports = async function (user, table) {
+  console.log("running createNewTable");
   const newTable = {
     name: table.name,
     gameType: table.gameType,
