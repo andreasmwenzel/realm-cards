@@ -31,7 +31,12 @@ exports = async function (table, user, position) {
   return await tables.findOneAndUpdate(
     { _id: table._id },
     {
-      $addToSet: { players: player },
+      $push: {
+        players: {
+          $each: [player],
+          $sort: { position: 1 },
+        },
+      },
       $set: { status: newStatus },
       $currentDate: { lastModified: true },
       $push: {
