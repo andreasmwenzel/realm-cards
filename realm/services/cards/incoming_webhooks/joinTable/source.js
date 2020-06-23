@@ -9,8 +9,8 @@ exports = async function (payload, response) {
   const userId = BSON.ObjectId(body.user); //throws error if body.user is not in right form
   let position = parseInt(body.position);
   //check that position is a number
-  if (!typeof position === "number") {
-    throw new Error("Missing table (string) or position (number) in body");
+  if (isNaN(position)) {
+    throw new Error("position (number) in body or NaN");
   }
 
   const [user, table] = await Promise.all([
