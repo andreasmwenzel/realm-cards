@@ -28,23 +28,22 @@ exports = async function (payload, response) {
       "body.rules.players not an allowed value for specified gameType"
     );
   }
+
+  const db = context.services.get("mongodb-atlas").db("cards");
+  const users = db.collection("users");
+
+  const userId = BSON.ObjectId(body.user); //throws error if body.user is not in right form
+
   //check if user is in game
-  const user = await context.services
-    .get("mongodb-atlas")
-    .db("cards")
-    .collection("users")
-    .findOne({ id: context.user.id });
+  const user = await users.findOne({ _id: context.user.id });
+  console.log(JSON.stringify(user));
   if (user.currentTable) {
     throw new Error("user is already in a game");
   }
   response.setHeader("Content-Type", "application/json");
   response.setBody(
     JSON.stringify(
-      await context.functions.execute(
-        "createNewTable",
-        context.user.id,
-        body.table
-      )
+      await context.functions.execute("createNewTable", user, body.table)
     )
   );
 };

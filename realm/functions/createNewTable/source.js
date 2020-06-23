@@ -1,11 +1,11 @@
-exports = async function (userId, table) {
+exports = async function (user, table) {
   const newTable = {
     name: table.name,
     gameType: table.gameType,
     rules: {
       players: table.rules.players,
     },
-    createdBy: BSON.ObjectId(userId),
+    createdBy: user_id,
     status: "created",
     playerUserIds: [],
     tableLogs: ["Created Table"],

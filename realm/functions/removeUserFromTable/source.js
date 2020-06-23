@@ -28,7 +28,7 @@ exports = async function (user) {
       break;
     default:
       throw new Error(
-        `removeUserFromTable: tried to remove player from table in unexpected status ${table.status}`
+        `removeUserFromTable: tried to remove player from table with unexpected status - ${table.status}`
       );
   }
 
