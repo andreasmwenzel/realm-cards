@@ -27,7 +27,7 @@ exports = async function (table, user, position) {
       );
   }
 
-  return await tables.findAndUpdateOne(
+  return await tables.findOneAndUpdate(
     { _id: table._id },
     {
       $addToSet: { players: player },
