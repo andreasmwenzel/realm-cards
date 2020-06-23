@@ -34,7 +34,7 @@ exports = async function (user) {
       );
   }
 
-  await tablesCollection.updateOne(
+  await tables.updateOne(
     { _id: table._id },
     {
       $set: { status: tableStatus },
