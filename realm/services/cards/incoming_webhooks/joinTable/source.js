@@ -34,7 +34,7 @@ exports = async function (payload, response) {
   //make sure table is accepting players
   if (!(table.status === "created" || table.status === "waiting for players")) {
     throw new Error(
-      `Unable to join table : Table found in unjoinable state ${foundTable.status}`
+      `Unable to join table : Table found in unjoinable state ${table.status}`
     );
   }
 
