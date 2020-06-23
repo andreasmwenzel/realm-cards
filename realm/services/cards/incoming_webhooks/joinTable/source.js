@@ -7,7 +7,7 @@ exports = async function (payload, response) {
 
   const tableId = BSON.ObjectId(body.table); //throws error of body.table is not in the right form
   const userId = BSON.ObjectId(body.user); //throws error if body.user is not in right form
-  const position = body.position;
+  let position = body.position;
   //check that position is a number
   if (!typeof position === "number") {
     throw new Error("Missing table (string) or position (number) in body");
