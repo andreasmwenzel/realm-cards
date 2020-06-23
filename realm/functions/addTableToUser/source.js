@@ -3,7 +3,7 @@ exports = async function (user, table) {
 
   const db = context.services.get("mongodb-atlas").db("cards");
   const users = db.collection("users");
-  return await users.findAndUpdateOne(
+  return await users.findOneAndUpdate(
     { _id: user._id },
     { $set: { currentTable: table._id } },
     {

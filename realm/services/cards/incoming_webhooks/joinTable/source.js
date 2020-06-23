@@ -72,13 +72,23 @@ exports = async function (payload, response) {
     //our prefered seat was taken
   }
 
-  await context.functions.execute("addUserToTable", table, user, position);
+  const joinedTable = await context.functions.execute(
+    "addUserToTable",
+    table,
+    user,
+    position
+  );
+  const updatedUser = await context.functions.execute(
+    "addTableToUser",
+    user,
+    joinedTable
+  );
 
   response.setHeader("Content-Type", "application/json");
   response.setBody(
     JSON.stringify({
       user: userId,
-      table: tableId,
+      table: joinedTable,
       position: position,
     })
   );
