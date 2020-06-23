@@ -16,7 +16,7 @@ exports = async function (table, user, position) {
     case "created":
       newStatus = "waiting for players";
       break;
-    case "waiting players":
+    case "waiting for players":
       if (table.players.length === table.rules.players) {
         newStatus = "waiting for start";
       }
