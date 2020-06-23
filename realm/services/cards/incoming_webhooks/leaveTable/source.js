@@ -6,7 +6,7 @@ exports = async function (payload, response) {
   const user = await context.functions.execute("removeTableFromUser", userId); //returns user before removing table
   console.log(`user: ${JSON.stringify(user)}`);
   const table = user.currentTable
-    ? await context.function.execute("removeUserFromTable", user)
+    ? await context.functions.execute("removeUserFromTable", user)
     : null;
 
   response.setHeader("Content-Type", "application/json");
