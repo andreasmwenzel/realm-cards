@@ -13,10 +13,10 @@ exports = async function (payload, response) {
     throw new Error("Missing table (string) or position (number) in body");
   }
 
-  const [user, table] = await Promise.all(
+  const [user, table] = await Promise.all([
     users.findOne({ id: userId }, { username: 1, currentTable: 1 }),
-    tables.findOne({ id: tableId }, { rules: 1, players: 1, status: 1 })
-  );
+    tables.findOne({ id: tableId }, { rules: 1, players: 1, status: 1 }),
+  ]);
 
   console.log(JSON.stringify(user));
   console.log(JSON.stringify(table));
