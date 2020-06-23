@@ -11,12 +11,34 @@
   },
   "roles": [
     {
+      "name": "isAtTable",
+      "apply_when": {
+        "%%true": {
+          "%function": {
+            "name": "isAtTable",
+            "arguments": ["%%user.data.id", "players"]
+          }
+        }
+      },
+      "fields": {
+        "createdBy": {},
+        "password": {
+          "read": true
+        },
+        "tableLogs": {}
+      },
+      "insert": false,
+      "delete": false,
+      "additional_fields": {
+        "read": true
+      }
+    },
+    {
       "name": "default",
       "apply_when": {},
       "fields": {
         "createdBy": {},
         "password": {},
-        "playerUserIds": {},
         "tableLogs": {}
       },
       "insert": false,
