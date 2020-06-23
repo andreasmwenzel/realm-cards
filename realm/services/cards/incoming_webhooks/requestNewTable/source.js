@@ -35,7 +35,7 @@ exports = async function (payload, response) {
   const userId = BSON.ObjectId(body.user); //throws error if body.user is not in right form
 
   //check if user is in game
-  const user = await users.findOne({ _id: context.user.id });
+  const user = await users.findOne({ _id: userId });
   console.log(JSON.stringify(user));
   if (user.currentTable) {
     throw new Error("user is already in a game");
