@@ -7,7 +7,7 @@ exports = async function (user, table) {
     },
     createdBy: user._id,
     status: "created",
-    playerUserIds: [],
+    players: [],
     tableLogs: ["Created Table"],
     lastModified: new Date(),
   };
