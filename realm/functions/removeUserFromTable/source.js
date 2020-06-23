@@ -37,9 +37,9 @@ exports = async function (user) {
   await tables.updateOne(
     { _id: table._id },
     {
-      $set: { status: tableStatus },
+      $set: { status: newStatus },
       $push: {
-        tableLogs: `Removed ${user.username}. Table status now: ${tableStatus}`,
+        tableLogs: `Removed ${user.username}. Table status now: ${newStatus}`,
       },
       $currentDate: { lastModified: true },
     }
