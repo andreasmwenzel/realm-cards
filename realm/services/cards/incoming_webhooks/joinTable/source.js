@@ -59,7 +59,7 @@ exports = async function (payload, response) {
     console.log(`Preferred seat was taken`);
     for (let i = 0; i < maxPlayers; i++) {
       if (!takenSeats.includes(i)) {
-        position = i;
+        position = parseInt(i);
         break;
       }
     }
