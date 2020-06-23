@@ -14,7 +14,7 @@ exports = async function (payload, response) {
   }
 
   const [user, table] = await Promise.all([
-    users.findOne({ _id: userId }, { username: 1, currentTable: 1 }),
+    users.findOne({ _id: userId }),
     tables.findOne({ _id: tableId }, { rules: 1, players: 1, status: 1 }),
   ]);
 
