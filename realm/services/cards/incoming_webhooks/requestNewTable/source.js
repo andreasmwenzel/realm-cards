@@ -28,7 +28,13 @@ exports = async function (payload, response) {
       "body.rules.players not an allowed value for specified gameType"
     );
   }
-  if (await context.functions.execute("userInGame", context.user.id)) {
+  //check if user is in game
+  const user = await context.services
+    .get("mongodb-atlas")
+    .db("cards")
+    .collection("users")
+    .findOne({ id: context.user.id });
+  if (user.currentTable) {
     throw new Error("user is already in a game");
   }
   response.setHeader("Content-Type", "application/json");

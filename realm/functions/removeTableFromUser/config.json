@@ -1,5 +1,5 @@
 {
-  "name": "userInGame",
+  "name": "removeUserFromTable",
   "private": true,
   "run_as_system": true
 }

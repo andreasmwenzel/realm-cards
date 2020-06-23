@@ -1,71 +1,45 @@
-exports = async function (
-  userId,
-  playerId,
-  tableId,
-  position,
-  playerCount,
-  maxPlayerCount
-) {
+exports = async function (table, user, position) {
   console.log("running addUserToTable");
-  const playersCollection = context.services
-    .get("mongodb-atlas")
-    .db("cards")
-    .collection("players");
-  await playersCollection.updateOne(
-    { _id: BSON.ObjectId(playerId) },
+
+  const db = context.services.get("mongodb-atlas").db("cards");
+  const tables = db.collection("tables");
+
+  const player = {
+    id: user._id,
+    username: user.username,
+    position: position,
+    ready: false,
+  };
+
+  let newStatus = table.status;
+  switch (table.status) {
+    case "created":
+      newStatus = "waiting for players";
+      break;
+    case "waiting players":
+      if (table.players.length === table.rules.players) {
+        newStatus = "waiting for start";
+      }
+      break;
+    default:
+      throw new Error(
+        `addUserToTable: tried to add player to table with unexpected status - ${table.status}`
+      );
+  }
+
+  return await tables.findAndUpdateOne(
+    { _id: table._id },
     {
-      $set: { position: position, ready: false },
+      $addToSet: { players: player },
+      $set: { status: newStatus },
+      $currentDate: { lastModified: true },
+      $push: {
+        tableLogs: `Added ${user.username} to table. Status is now ${newStatus}`,
+      },
+    },
+    {
+      projections: { _id: 1 },
+      returnNewDocument: true,
     }
   );
-
-  const tablesCollection = context.services
-    .get("mongodb-atlas")
-    .db("cards")
-    .collection("active-tables");
-
-  if (playerCount === 1) {
-    await tablesCollection.updateOne(
-      { _id: BSON.ObjectId(tableId) },
-      {
-        $set: { status: "waiting for players" },
-        $addToSet: {
-          playerUserIds: BSON.ObjectId(userId),
-          players: BSON.ObjectId(playerId),
-        },
-        $push: {
-          tableLogs:
-            "Added first player to table, set state to waitng for players",
-        },
-        $currentDate: { lastModified: true },
-      }
-    );
-  } else if (playerCount === maxPlayerCount) {
-    await tablesCollection.updateOne(
-      { _id: BSON.ObjectId(tableId) },
-      {
-        $set: { status: "waiting for start" },
-        $addToSet: {
-          playerUserIds: BSON.ObjectId(userId),
-          players: BSON.ObjectId(playerId),
-        },
-        $push: {
-          tableLogs:
-            "Added final player to table, set state to waiting for start",
-        },
-        $currentDate: { lastModified: true },
-      }
-    );
-  } else {
-    await tablesCollection.updateOne(
-      { _id: BSON.ObjectId(tableId) },
-      {
-        $addToSet: {
-          playerUserIds: BSON.ObjectId(userId),
-          players: BSON.ObjectId(playerId),
-        },
-        $push: { tableLogs: "Added a player to table" },
-        $currentDate: { lastModified: true },
-      }
-    );
-  }
 };
