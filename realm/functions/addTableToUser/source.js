@@ -1,5 +1,5 @@
 exports = async function (user, table) {
-  console.log("running addUserToTable");
+  console.log("running addTableToUser");
 
   const db = context.services.get("mongodb-atlas").db("cards");
   const users = db.collection("users");

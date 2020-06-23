@@ -2,7 +2,7 @@ exports = async function (table, user, position) {
   console.log("running addUserToTable");
 
   const db = context.services.get("mongodb-atlas").db("cards");
-  const tables = db.collection("tables");
+  const tables = db.collection("active-tables");
 
   const player = {
     id: user._id,

@@ -18,9 +18,6 @@ exports = async function (payload, response) {
     tables.findOne({ _id: tableId }, { rules: 1, players: 1, status: 1 }),
   ]);
 
-  console.log(JSON.stringify(user));
-  console.log(JSON.stringify(table));
-
   //check if user is in a game
   if (user.currentTable) {
     throw new Error("Unable to join table : user is already in a game");
@@ -51,11 +48,9 @@ exports = async function (payload, response) {
     //can't use for.. of in realms
     if (typeof table.players[i].position === "number") {
       //players in queue don't have position / account for 0
-      takenSeats.push(playersAtTable[i].position);
+      takenSeats.push(table.players[i].position);
     }
   }
-
-  console.log(JSON.stringify(takenSeats));
 
   if (takenSeats.includes(position)) {
     console.log(`Preferred seat was taken`);
@@ -87,7 +82,7 @@ exports = async function (payload, response) {
   response.setHeader("Content-Type", "application/json");
   response.setBody(
     JSON.stringify({
-      user: userId,
+      user: user,
       table: joinedTable,
       position: position,
     })
