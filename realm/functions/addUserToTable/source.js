@@ -36,12 +36,10 @@ exports = async function (table, user, position) {
           $each: [player],
           $sort: { position: 1 },
         },
+        tableLogs: `Added ${user.username} to table. Status is now ${newStatus}`,
       },
       $set: { status: newStatus },
       $currentDate: { lastModified: true },
-      $push: {
-        tableLogs: `Added ${user.username} to table. Status is now ${newStatus}`,
-      },
     },
     {
       projection: { _id: 1, players: 1, status: 1 },
