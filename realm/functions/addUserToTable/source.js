@@ -12,12 +12,13 @@ exports = async function (table, user, position) {
   };
 
   let newStatus = table.status;
+
   switch (table.status) {
     case "created":
       newStatus = "waiting for players";
       break;
     case "waiting for players":
-      if (table.players.length === table.rules.players) {
+      if (table.players.length === table.rules.players - 1) {
         newStatus = "waiting for start";
       }
       break;
@@ -38,7 +39,7 @@ exports = async function (table, user, position) {
       },
     },
     {
-      projections: { _id: 1 },
+      projection: { _id: 1, players: 1, status: 1 },
       returnNewDocument: true,
     }
   );
