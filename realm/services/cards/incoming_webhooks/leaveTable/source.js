@@ -10,7 +10,7 @@ exports = async function (payload, response) {
     try {
       await context.functions.execute("removeUserFromTable", user);
       resp.message.append(` AND user removed from table`);
-    } catch {
+    } catch (err) {
       resp.error = err;
     }
   } else {
