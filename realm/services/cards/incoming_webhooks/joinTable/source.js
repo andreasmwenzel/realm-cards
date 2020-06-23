@@ -14,15 +14,15 @@ exports = async function (payload, response) {
   }
 
   const [user, table] = await Promise.all([
-    users.findOne({ id: userId }, { username: 1, currentTable: 1 }),
-    tables.findOne({ id: tableId }, { rules: 1, players: 1, status: 1 }),
+    users.findOne({ _id: userId }, { username: 1, currentTable: 1 }),
+    tables.findOne({ _id: tableId }, { rules: 1, players: 1, status: 1 }),
   ]);
 
   console.log(JSON.stringify(user));
   console.log(JSON.stringify(table));
 
   //check if user is in a game
-  if (user.table) {
+  if (user.currentTable) {
     throw new Error("Unable to join table : user is already in a game");
   }
 
