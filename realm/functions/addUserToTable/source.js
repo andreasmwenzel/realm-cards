@@ -4,12 +4,12 @@ exports = async function (table, user, position) {
   const db = context.services.get("mongodb-atlas").db("cards");
   const tables = db.collection("active-tables");
 
-  const player = {
-    id: user._id,
-    username: user.username,
-    position: NumberInt(position),
-    ready: false,
-  };
+  // const player = {
+  //   id: user._id,
+  //   username: user.username,
+  //   position: position,
+  //   ready: false,
+  // };
 
   let newStatus = table.status;
 
@@ -33,7 +33,14 @@ exports = async function (table, user, position) {
     {
       $push: {
         players: {
-          $each: [player],
+          $each: [
+            {
+              id: user._id,
+              username: user.username,
+              position: NumberInt(position),
+              ready: false,
+            },
+          ],
           $sort: { position: 1 },
         },
         tableLogs: `Added ${user.username} to table. Status is now ${newStatus}`,
