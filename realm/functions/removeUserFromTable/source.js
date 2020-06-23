@@ -1,7 +1,7 @@
 exports = async function (user) {
   console.log("running removeUserFromTable");
   const db = context.services.get("mongodb-atlas").db("cards");
-  const tables = db.collection("tables");
+  const tables = db.collection("active-tables");
 
   const table = await tables.findOneAndUpdate(
     { _id: user.currentTable },
