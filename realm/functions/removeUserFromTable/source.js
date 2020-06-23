@@ -24,7 +24,7 @@ exports = async function (user) {
       break;
     case "waiting for players":
     case "closing":
-      if (table.players.length === 1) {
+      if (table.players.length === 0) {
         newStatus = "archiving";
       }
       break;
@@ -45,9 +45,9 @@ exports = async function (user) {
     }
   );
 
-  if (table.players.length === 1) {
+  if (table.players.length === 0) {
     //removing last user
-    const finishedTable = await tablesCollection.findOneAndDelete({
+    const finishedTable = await tables.findOneAndDelete({
       _id: table._id,
     });
     //finishedTable.tableLogs.push("table closed");
