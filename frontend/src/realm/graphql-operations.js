@@ -6,19 +6,19 @@ export const GET_TABLES = gql`
     activeTables {
       _id
       gameType
-      rules {
-        players
-      }
+      lastModified
+      log
       name
+      password
+      players {
+        id
+        username
+        position
+      }
       rules {
         players
       }
-      players {
-        user {
-          _id
-          username
-        }
-      }
+      status
     }
   }
 `;

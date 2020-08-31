@@ -1,5 +1,7 @@
 import * as React from "react";
 import * as RealmWeb from "realm-web";
+import * as attachUserData from "./RealmCardsUser";
+import { from } from "apollo-boost";
 
 const REALM_APP_ID = "realm-card-zacxr";
 const app = new RealmWeb.App({ id: REALM_APP_ID });
@@ -8,9 +10,12 @@ const RealmAppContext = React.createContext(undefined);
 
 const RealmApp = ({ children }) => {
   const appRef = React.useRef(app);
-  // Keep track of the current user in local state
+  console.log(appRef);
+
   const [user, setUser] = React.useState(app.currentUser);
   React.useEffect(() => {
+    attachUserData(app, app.currentUser);
+    app.currentUser.fetchUserData();
     setUser(app.currentUser);
   }, [appRef.current.currentUser]);
 
@@ -29,10 +34,9 @@ const RealmApp = ({ children }) => {
     if (app.currentUser) {
       await app.logOut();
     }
-    // TODO: Log in with the specified email and password
     const credentials = RealmWeb.Credentials.emailPassword(email, password);
     await app.logIn(credentials);
-    setUser(app.currentUser);
+    return await setUser(app, app.currentUser);
   };
 
   //Log anon-user in

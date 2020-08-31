@@ -11,7 +11,7 @@ export default function UserPage() {
     // vertical
     >
       <Navbar />
-      <div>User's Page</div>
+      <Container>User's Page</Container>
     </Segment>
   );
 }

@@ -22,6 +22,7 @@ import {
   Link,
   useLocation,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 
 function App() {
@@ -59,7 +60,11 @@ function Routes() {
         <LoginPage initialMode="login" />
       </Route>
       <Route path="/about/" component={AboutPage}></Route>
-      <Route exact path="/user/" component={UserPage} />
+      <Route exact path="/user/">
+        <RequireAuthentication needEmail>
+          <UserPage />
+        </RequireAuthentication>
+      </Route>
       <Route exact path="/user/confirm">
         <UserConfirmationPage
           token={query.get("token")}
@@ -76,17 +81,22 @@ function Routes() {
   );
 }
 
-function RequireAuthentication({ children }) {
+function RequireAuthentication(props) {
   const app = useRealmApp();
   console.log(app);
   //console.log(app);
 
   if (!app.user) {
-    app.logIn("seven@seven.com", "password");
+    app.logIn("one@one.com", "password");
+    // if (!props.needEmail) {
+    //   app.logInAnon();
+    // } else {
+    //   return <Redirect to="/login" />;
+    // }
   }
 
   return app.user ? (
-    <RealmApolloProvider>{children}</RealmApolloProvider>
+    <RealmApolloProvider>{props.children}</RealmApolloProvider>
   ) : (
     //TODO Make this a spinning loading thingy
     <Loader active inline="centered" />
