@@ -31,7 +31,7 @@ exports = async function (payload, response) {
   let position = body.position;
 
   //check if user is in a game
-  if (await context.functions.execute("userInGame", userId)) {
+  if (await context.functions.execute("isInGame", userId)) {
     throw new Error("user is already in a game");
   }
 

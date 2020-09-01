@@ -1,5 +1,5 @@
 {
-  "name": "userInGame",
+  "name": "isInGame",
   "private": true,
   "run_as_system": true
 }

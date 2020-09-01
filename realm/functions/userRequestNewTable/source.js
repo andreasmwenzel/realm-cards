@@ -28,7 +28,7 @@ exports = async function (payload, response) {
       "body.rules.players not an allowed value for specified gameType"
     );
   }
-  if (await context.functions.execute("userInGame", context.user.id)) {
+  if (await context.functions.execute("isInGame", context.user.id)) {
     throw new Error("user is already in a game");
   }
   response.setHeader("Content-Type", "application/json");
