@@ -5,11 +5,11 @@ import RealmApolloProvider from "./realm/RealmApolloProvider";
 
 import "./App.css";
 import Body from "./components/Body";
+import LoginPage from "./components/LoginPage";
 import LandingPage from "./components/LandingPage";
 import GamesPage from "./components/GamesPage";
 import AboutPage from "./components/AboutPage";
 import UserPage from "./components/UserPage";
-import LoginPage from "./components/LoginPage";
 import UserConfirmationPage from "./components/UserConfirmationPage";
 import UserPasswordResetPage from "./components/UserPasswordResetPage";
 
@@ -25,10 +25,9 @@ import {
   useHistory,
 } from "react-router-dom";
 
-function App() {
+const App: React.FC = (props) => {
   return (
     <RealmApp>
-      {/* <Navbar /> */}
       <Router>
         <Routes />
       </Router>
@@ -61,7 +60,7 @@ function Routes() {
       </Route>
       <Route path="/about/" component={AboutPage}></Route>
       <Route exact path="/user/">
-        <RequireAuthentication needEmail>
+        <RequireAuthentication>
           <UserPage />
         </RequireAuthentication>
       </Route>
@@ -81,7 +80,7 @@ function Routes() {
   );
 }
 
-function RequireAuthentication(props) {
+const RequireAuthentication: React.FC = (props) => {
   const app = useRealmApp();
   console.log(app);
   //console.log(app);
@@ -98,7 +97,7 @@ function RequireAuthentication(props) {
   return app.user ? (
     <RealmApolloProvider>{props.children}</RealmApolloProvider>
   ) : (
-    //TODO Make this a spinning loading thingy
-    <Loader active inline="centered" />
-  );
+      //TODO Make this a spinning loading thingy
+      <Loader active inline="centered" />
+    );
 }
