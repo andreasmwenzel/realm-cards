@@ -11,7 +11,7 @@ export default function LandingPage() {
       style={{ minHeight: 700, padding: "1em 0em" }}
       vertical
     >
-      <Navbar />
+      <Navbar hideLoginButtons={false} />
       <LandingPageContent />
     </Segment>
   );
@@ -52,7 +52,7 @@ function LandingPageContent() {
         }}
       >
         Browse Tables
-        <Icon name="right arrow" />
+        <Icon name="arrow right" />
       </Button>
     </Container>
   );
