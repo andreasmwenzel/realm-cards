@@ -15,10 +15,10 @@ export default function GamesPage() {
           <div>Hello Current Game </div>
         </Container>
       ) : (
-        <Container>
-          <CurrentTables />
-        </Container>
-      )}
+          <Container>
+            <CurrentTables />
+          </Container>
+        )}
     </Segment>
   );
 }

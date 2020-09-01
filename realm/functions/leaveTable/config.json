@@ -1,5 +1,4 @@
 {
-    "name": "userLeaveTable",
-    "private": false
-  }
-  
+  "name": "leaveTable",
+  "private": false
+}

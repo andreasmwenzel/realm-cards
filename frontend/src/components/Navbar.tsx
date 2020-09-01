@@ -1,15 +1,25 @@
-import React from "react";
+import * as React from "react";
 import { Button, Container, Menu } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 import { useRealmApp } from "../realm/RealmApp";
 
-export default function Navbar(props) {
-  const { user, logOut } = useRealmApp();
-  const profile = user?.profile;
-  const username = user?.username;
+interface NavBarProps {
+  hideLoginButtons: boolean | undefined;
+}
 
-  console.log(user);
+export default function Navbar(props: NavBarProps) {
+  const { user, logOut } = useRealmApp();
+  const profile: Realm.UserProfile | undefined = user?.profile
+  const email = profile?.email;
+  const name = profile?.name;
+
+  console.log("from navbar:", user, props.hideLoginButtons);
   let history = useHistory();
+
+  const handleButton = async () => {
+    const u = await user?.functions.getCurrentTable();
+    console.log(u);
+  };
 
   return (
     <Menu
@@ -27,14 +37,17 @@ export default function Navbar(props) {
         <Menu.Item as="a" onClick={() => history.push("/about")}>
           About
         </Menu.Item>
-        {user?.username ? (
+        <Menu.Item as="a" onClick={() => handleButton()}>
+          UserInfoToConsole
+        </Menu.Item>
+        {email ? (
           <Menu.Item position="right">
             <Button
               as="a"
               style={{ marginLeft: "0.5em" }}
               onClick={() => history.push("/user")}
             >
-              {user?.username}
+              {email}
             </Button>
             <Button
               as="a"
@@ -46,7 +59,7 @@ export default function Navbar(props) {
               Log Out
             </Button>
           </Menu.Item>
-        ) : props.noLogInButtons ? null : (
+        ) : props.hideLoginButtons ? null : (
           <Menu.Item position="right">
             <Button as="a" onClick={() => history.push("/login")}>
               Log in
@@ -66,3 +79,4 @@ export default function Navbar(props) {
     </Menu>
   );
 }
+

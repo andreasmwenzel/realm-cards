@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import {
   Button,
   Form,
@@ -22,7 +22,7 @@ type LogInMode = {
 const LoginPage = ({ initialMode }: LogInMode) => {
   return (
     <Segment>
-      <Navbar noLogInButtons />
+      <Navbar hideLoginButtons={false} />
       <LoginBody initialMode={initialMode} />
     </Segment>
   );
@@ -93,6 +93,8 @@ const LoginBody = ({ initialMode }: LogInMode) => {
     setError((e) => ({ ...e, password: undefined }));
     try {
       const user = await app.logIn(email, password);
+
+      console.log("from login", user);
       //check if user is in a game: if yes, redirect him to game
       //if (user.currentTable) {
       //  setInGame(true); //show rejoin message
