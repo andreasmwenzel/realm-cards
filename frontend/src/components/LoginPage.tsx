@@ -14,21 +14,27 @@ import { useRealmApp } from "../realm/RealmApp";
 import parseAuthenticationError from "../realm/parseAuthenticationError";
 import Navbar from "./Navbar";
 
-const LoginPage = (props) => {
+
+type LogInMode = {
+  initialMode: "login" | "signup";
+}
+
+const LoginPage = ({ initialMode }: LogInMode) => {
   return (
     <Segment>
       <Navbar noLogInButtons />
-      <LoginBody initialMode={props.initialMode} />
+      <LoginBody initialMode={initialMode} />
     </Segment>
   );
 };
 
-const LoginBody = (props) => {
+
+const LoginBody = ({ initialMode }: LogInMode) => {
   const app = useRealmApp();
   let history = useHistory();
 
-  const [mode, setMode] = React.useState(props.initialMode); //states "login" or "register"
-  console.log(`Mode: ${mode}`);
+  const [mode, setMode] = React.useState("login"); //states "login" or "register"
+
   const toggleMode = () => {
     setMode((oldMode) => (oldMode === "login" ? "register" : "login"));
   };
@@ -46,9 +52,12 @@ const LoginBody = (props) => {
   }, [mode]);
 
   // Keep track of input validation/errors
-  const [error, setError] = React.useState({});
+  const [error, setError] = React.useState<{
+    email?: string;
+    password?: string;
+  }>({});
 
-  function handleAuthenticationError(err) {
+  function handleAuthenticationError(err: Error) {
     console.error(err);
     const { status, message } = parseAuthenticationError(err);
     const errorType = message || status;
@@ -85,11 +94,11 @@ const LoginBody = (props) => {
     try {
       const user = await app.logIn(email, password);
       //check if user is in a game: if yes, redirect him to game
-      if (user.currentTable) {
-        setInGame(true); //show rejoin message
-      } else {
-        history.push("/");
-      }
+      //if (user.currentTable) {
+      //  setInGame(true); //show rejoin message
+      //} else {
+      history.push("/");
+      //}
     } catch (err) {
       return handleAuthenticationError(err);
     }
@@ -121,7 +130,7 @@ const LoginBody = (props) => {
   const handleLeave = async () => {
     console.log("hit leave");
     try {
-      await app.leaveGame();
+      //await app.leaveGame();
     } catch (err) {
       console.log(err);
     }
@@ -172,17 +181,17 @@ const LoginBody = (props) => {
                 Login
               </Button>
             ) : (
-              <Button
-                color="grey"
-                fluid
-                size="large"
-                disabled={submitting}
-                loading={submitting}
-                onClick={() => handleRegistration()}
-              >
-                Sign Up
-              </Button>
-            )}
+                <Button
+                  color="grey"
+                  fluid
+                  size="large"
+                  disabled={submitting}
+                  loading={submitting}
+                  onClick={() => handleRegistration()}
+                >
+                  Sign Up
+                </Button>
+              )}
           </Segment>
         </Form>
         <Message style={{ cursor: "pointer" }}>
