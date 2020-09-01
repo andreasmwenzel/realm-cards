@@ -22,6 +22,7 @@ import {
   Link,
   useLocation,
   Redirect,
+  useHistory,
 } from "react-router-dom";
 
 function App() {
@@ -47,7 +48,11 @@ function Routes() {
   return (
     <Switch>
       <Route exact path="/" component={LandingPage}></Route>
-      <Route path="/games/" component={GamesPage}></Route>
+      <Route path="/games/">
+        <RequireAuthentication>
+          <GamesPage />
+        </RequireAuthentication>
+      </Route>
       <Route path="/signup/">
         <LoginPage initialMode="signup" />
       </Route>
@@ -55,7 +60,11 @@ function Routes() {
         <LoginPage initialMode="login" />
       </Route>
       <Route path="/about/" component={AboutPage}></Route>
-      <Route exact path="/user/" component={UserPage} />
+      <Route exact path="/user/">
+        <RequireAuthentication needEmail>
+          <UserPage />
+        </RequireAuthentication>
+      </Route>
       <Route exact path="/user/confirm">
         <UserConfirmationPage
           token={query.get("token")}
@@ -72,21 +81,22 @@ function Routes() {
   );
 }
 
-function RequireAuthentication() {
+function RequireAuthentication(props) {
   const app = useRealmApp();
   console.log(app);
   //console.log(app);
 
   if (!app.user) {
-    app.logIn("joe@shmo.com", "password");
+    app.logIn("one@one.com", "password");
+    // if (!props.needEmail) {
+    //   app.logInAnon();
+    // } else {
+    //   return <Redirect to="/login" />;
+    // }
   }
 
   return app.user ? (
-    <RealmApolloProvider>
-      <div style={{ marginTop: "7em" }}>
-        <Body />
-      </div>
-    </RealmApolloProvider>
+    <RealmApolloProvider>{props.children}</RealmApolloProvider>
   ) : (
     //TODO Make this a spinning loading thingy
     <Loader active inline="centered" />

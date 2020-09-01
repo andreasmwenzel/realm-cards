@@ -4,55 +4,99 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { GET_TABLES } from "../realm/graphql-operations";
 import {
   Loader,
-  Container,
-  Grid,
+  Table,
+  Segment,
   Button,
-  Icon,
-  GridColumn,
+  Popup,
+  Label,
 } from "semantic-ui-react";
 
-import TableDisplay from "./TableDisplay";
+import HeartsTableRow from "./HeartsTableRow";
 
 export default function CurrentTable() {
   const { user } = useRealmApp();
-  const { loading, error, data, refetch } = useQuery(GET_TABLES);
+  const { loading, error, data, refetch, networkStatus } = useQuery(GET_TABLES);
 
-  if (loading) return <Loader active inline="centered" />;
   if (error) return `Error! ${error.message}`;
+  if (data) console.log();
+
+  const handleRefetch = async () => {
+    console.log("refetching data");
+    refetch();
+    console.log(`Network Status: ${networkStatus}`);
+  };
+  const handleNewTable = async () => {
+    console.log("requested new table");
+  };
+
+  function renderTableType(table) {
+    switch (table.gameType) {
+      case "HEARTS":
+        return <HeartsTableRow key={table._id} table={table} />;
+      default:
+        return (
+          <Table.Row key={table._id}>
+            <Table.Cell>A table of unknown type</Table.Cell>
+          </Table.Row>
+        );
+    }
+  }
 
   return (
-    <Container>
-      <Grid divided="vertically" padded>
-        <Grid.Row color="black" verticalAlign="middle">
-          <Grid.Column width={6} textAlign="right">
-            <Button size="small">Add New Table</Button>
-          </Grid.Column>
-          <Grid.Column width={4} textAlign="center">
-            <h3 style={{ display: "inline" }}> Current Tables </h3>
-          </Grid.Column>
-          <Grid.Column width={6} textAlign="left">
+    <Table celled>
+      <Table.Header>
+        <Table.Row>
+          <Table.HeaderCell
+            colSpan="3"
+            textAlign="center"
+            verticalAlign="middle"
+          >
             <Button
-              size="small"
-              onClick={() => {
-                console.log("refetch");
-                refetch();
-              }}
+              floated="left"
+              disabled={!user.profile?.email}
+              onClick={() => handleNewTable()}
             >
+              Start A Table
+            </Button>
+            Current Tables
+            <Button floated="right" onClick={() => handleRefetch()}>
               Refresh List
             </Button>
-          </Grid.Column>
-        </Grid.Row>
-        {data.activeTables.map((table) => (
-          <TableDisplay key={table._id} table={table} />
-          // <Grid.Row key={table._id} color="grey">
-          //   <TableDisplay table={table} />
-          // </Grid.Row>
-        ))}
-        <Grid.Row color="teal" key="no more">
-          {" "}
-          No Additional Tables
-        </Grid.Row>
-      </Grid>
-    </Container>
+          </Table.HeaderCell>
+        </Table.Row>
+        <Table.Row>
+          <Table.HeaderCell>Header</Table.HeaderCell>
+          <Table.HeaderCell>Header</Table.HeaderCell>
+          <Table.HeaderCell>Header</Table.HeaderCell>
+        </Table.Row>
+      </Table.Header>
+      <Table.Body>
+        {networkStatus !== 7 ? (
+          <Table.Row>
+            <Table.Cell colSpan="3">
+              <Segment>
+                <Loader active />
+              </Segment>
+            </Table.Cell>
+          </Table.Row>
+        ) : null}
+        {error ? (
+          <Table.Row>
+            <Table.Cell colSpan="3">
+              There was an issue fetching the tables
+            </Table.Cell>
+          </Table.Row>
+        ) : null}
+        {data ? (
+          data.activeTables?.length ? (
+            data.activeTables.map((table) => renderTableType(table))
+          ) : (
+            <Table.Row>
+              <Table.Cell>There are no active Tables</Table.Cell>
+            </Table.Row>
+          )
+        ) : null}
+      </Table.Body>
+    </Table>
   );
 }

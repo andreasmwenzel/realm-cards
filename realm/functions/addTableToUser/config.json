@@ -1,5 +1,5 @@
 {
-  "name": "findTableById",
+  "name": "addTableToUser",
   "private": true,
   "run_as_system": true
 }

@@ -1,12 +1,23 @@
 {
   "database": "cards",
   "collection": "active-tables",
+  "relationships": {
+    "createdBy": {
+      "ref": "#/relationship/mongodb-atlas/cards/users",
+      "source_key": "createdBy",
+      "foreign_key": "_id",
+      "is_list": false
+    }
+  },
   "roles": [
     {
       "name": "isAtTable",
       "apply_when": {
-        "%%user.data.id": {
-          "%in": "playerUserIds"
+        "%%true": {
+          "%function": {
+            "arguments": ["%%user.id", "%%root.players"],
+            "name": "isAtTable"
+          }
         }
       },
       "fields": {
@@ -14,7 +25,6 @@
         "password": {
           "read": true
         },
-        "playerUserIds": {},
         "tableLogs": {}
       },
       "insert": false,
@@ -29,7 +39,6 @@
       "fields": {
         "createdBy": {},
         "password": {},
-        "playerUserIds": {},
         "tableLogs": {}
       },
       "insert": false,
@@ -84,20 +93,39 @@
         "bsonType": "objectId",
         "desciption": "id of the user who created the table"
       },
-      "host": {
-        "bsonType": "objectId",
-        "desciption": "id of the player who is listed as the host of the game"
-      },
       "password": {
         "bsonType": "string",
         "description": "optional password string to only allow players with password to join"
       },
-      "playerUserIds": {
+      "players": {
         "bsonType": "array",
-        "description": "holds ids of current users at table. Not viewable to anyone but system. Used to profile authentication to view table data",
+        "description": "List of current players at the table",
         "items": {
-          "bsonType": "objectId"
+          "bsonType": "object",
+          "properties": {
+            "id": {
+              "bsonType": "objectId"
+            },
+            "username": {
+              "bsonType": "string"
+            },
+            "position": {
+              "bsonType": "int"
+            },
+            "ready": {
+              "bsonType": "bool"
+            }
+          }
         }
+      },
+      "log": {
+        "bsonType": "array",
+        "items": {
+          "bsonType": "string"
+        }
+      },
+      "lastModified": {
+        "bsonType": "date"
       }
     }
   }

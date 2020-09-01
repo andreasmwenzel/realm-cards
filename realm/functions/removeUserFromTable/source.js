@@ -1,48 +1,57 @@
-exports = async function (userId, tableId) {
-  const db = context.services
-    .get("mongodb-atlas")
-    .db(context.values.get("db-name"));
-  const tablesCollection = db.collection("active-tables");
-  const playersCollection = db.collection("players");
-  let [table, players] = await Promise.all([
-    tablesCollection.findOne({ _id: BSON.ObjectId(tableId) }),
-    playersCollection.find({ table: BSON.ObjectId(tableId) }).toArray(),
-  ]);
+exports = async function (user) {
+  console.log("running removeUserFromTable");
+  const db = context.services.get("mongodb-atlas").db("cards");
+  const tables = db.collection("active-tables");
 
-  let tableStatus = table.status;
-  if (players.length === 0) {
-    tableStatus = "archiving";
-  } else {
-    switch (table.status) {
-      case "waiting for start":
-        tableStatus = "waiting for players";
-        break;
-      case "in progress":
-      case "disconnected player":
-        tableStatus = "closing";
-        break;
-    }
+  console.log(`User: ${JSON.stringify(user)}`);
+  const table = await tables.findOneAndUpdate(
+    { _id: user.currentTable },
+    { $pull: { players: { id: user._id } } },
+    { returnNewDocument: true }
+  );
+
+  console.log(JSON.stringify(table));
+
+  let newStatus = table.status;
+
+  switch (table.status) {
+    case "waiting for start":
+      newStatus = "waiting for players";
+      break;
+    case "in progress":
+    case "disconnected player":
+      newStatus = closing;
+      break;
+    case "waiting for players":
+    case "closing":
+      if (table.players.length === 0) {
+        newStatus = "archiving";
+      }
+      break;
+    default:
+      throw new Error(
+        `removeUserFromTable: tried to remove player from table with unexpected status - ${table.status}`
+      );
   }
 
-  await tablesCollection.updateOne(
+  await tables.updateOne(
+    { _id: table._id },
     {
-      _id: BSON.ObjectId(tableId),
-    },
-    {
-      $set: { status: tableStatus },
-      $pull: { playerUserIds: BSON.ObjectId(userId) },
-      $push: { tableLogs: `Removed player. Table status now: ${tableStatus}` },
+      $set: { status: newStatus },
+      $push: {
+        tableLogs: `Removed ${user.username}. Table status now: ${newStatus}`,
+      },
       $currentDate: { lastModified: true },
     }
   );
-  if (players.length === 0) {
-    const finishedTable = await tablesCollection.findOneAndDelete({
-      _id: BSON.ObjectId(tableId),
+
+  if (table.players.length === 0) {
+    //removing last user
+    const finishedTable = await tables.findOneAndDelete({
+      _id: table._id,
     });
-    console.log(JSON.stringify(finishedTable));
     //finishedTable.tableLogs.push("table closed");
     await db.collection("archived-tables").insertOne(finishedTable);
   }
-
-  return;
+  return table;
 };

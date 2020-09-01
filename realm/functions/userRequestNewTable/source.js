@@ -28,17 +28,26 @@ exports = async function (payload, response) {
       "body.rules.players not an allowed value for specified gameType"
     );
   }
+<<<<<<< HEAD:realm/services/cards/incoming_webhooks/requestNewTable/source.js
+
+  const db = context.services.get("mongodb-atlas").db("cards");
+  const users = db.collection("users");
+
+  const userId = BSON.ObjectId(body.user); //throws error if body.user is not in right form
+
+  //check if user is in game
+  const user = await users.findOne({ _id: userId });
+  console.log(JSON.stringify(user));
+  if (user.currentTable) {
+=======
   if (await context.functions.execute("isInGame", context.user.id)) {
+>>>>>>> master:realm/functions/userRequestNewTable/source.js
     throw new Error("user is already in a game");
   }
   response.setHeader("Content-Type", "application/json");
   response.setBody(
     JSON.stringify(
-      await context.functions.execute(
-        "createNewTable",
-        context.user.id,
-        body.table
-      )
+      await context.functions.execute("createNewTable", user, body.table)
     )
   );
 };

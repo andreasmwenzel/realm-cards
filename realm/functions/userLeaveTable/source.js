@@ -1,28 +1,22 @@
 exports = async function (payload, response) {
   const body = EJSON.parse(payload.body.text());
-  userId = body.user; //This is guaranteed to be right from pre-function checks
 
-  const player = await context.functions.execute(
-    "findAndDeletePlayerByUserId",
-    userId
-  );
-  console.log(JSON.stringify(player));
+  const userId = BSON.ObjectId(body.user); //throws error if body.user is not in right form
+  const user = await context.functions.execute("removeTableFromUser", userId); //returns user before removing table
 
-  playerId = player._id.toString();
-  tableId = player.table.toString();
-
-  const table = await context.functions.execute(
-    "removeUserFromTable",
-    userId,
-    tableId
-  );
+  let resp = {};
+  if (user.currentTable) {
+    resp.message = `Table ${user.currentTable} removed from user ${user._id}`;
+    try {
+      await context.functions.execute("removeUserFromTable", user);
+      resp.message = resp.message + ` AND user removed from table`;
+    } catch (err) {
+      resp.error = err;
+    }
+  } else {
+    resp.message = "user was not at a table";
+  }
 
   response.setHeader("Content-Type", "application/json");
-  response.setBody(
-    JSON.stringify({
-      user: userId,
-      player: playerId,
-      table: tableId,
-    })
-  );
+  response.setBody(JSON.stringify(resp));
 };

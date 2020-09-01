@@ -6,13 +6,24 @@ import {
   Header,
   Message,
   Segment,
+  Confirm,
 } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { useRealmApp } from "../realm/RealmApp";
 import parseAuthenticationError from "../realm/parseAuthenticationError";
+import Navbar from "./Navbar";
 
 const LoginPage = (props) => {
+  return (
+    <Segment>
+      <Navbar noLogInButtons />
+      <LoginBody initialMode={props.initialMode} />
+    </Segment>
+  );
+};
+
+const LoginBody = (props) => {
   const app = useRealmApp();
   let history = useHistory();
 
@@ -26,6 +37,7 @@ const LoginPage = (props) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [submitting, setSubmitting] = React.useState(false);
+  const [inGame, setInGame] = React.useState(false);
   // Whenever the mode changes, clear the form inputs
   React.useEffect(() => {
     setEmail("");
@@ -71,19 +83,15 @@ const LoginPage = (props) => {
     setSubmitting(true);
     setError((e) => ({ ...e, password: undefined }));
     try {
-      await app.logIn(email, password);
-      return history.go(-1);
+      const user = await app.logIn(email, password);
+      //check if user is in a game: if yes, redirect him to game
+      if (user.currentTable) {
+        setInGame(true); //show rejoin message
+      } else {
+        history.push("/");
+      }
     } catch (err) {
-      handleAuthenticationError(err);
-    }
-  };
-
-  const handleLoginAnon = async () => {
-    setError((e) => ({ ...e, password: undefined }));
-    try {
-      return await app.logInAnon();
-    } catch (err) {
-      handleAuthenticationError(err);
+      return handleAuthenticationError(err);
     }
   };
 
@@ -103,6 +111,21 @@ const LoginPage = (props) => {
     } else {
       setError((err) => ({ ...err, email: "Email is invalid." }));
     }
+  };
+
+  const handleRejoin = async () => {
+    console.log("hit rejoin");
+    history.push("/games");
+  };
+
+  const handleLeave = async () => {
+    console.log("hit leave");
+    try {
+      await app.leaveGame();
+    } catch (err) {
+      console.log(err);
+    }
+    history.push("/games");
   };
 
   return (
@@ -173,6 +196,16 @@ const LoginPage = (props) => {
           </a>
         </Message>
       </Grid.Column>
+      <Confirm
+        open={inGame}
+        header="You are currently at a table!"
+        content="Would you like to rejoin?"
+        cancelButton="Leave the Table"
+        confirmButton="Rejoin the Table"
+        size="fullscreen"
+        onCancel={() => handleLeave()}
+        onConfirm={() => handleRejoin()}
+      />
     </Grid>
   );
 };

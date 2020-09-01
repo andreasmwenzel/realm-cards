@@ -6,15 +6,19 @@ export const GET_TABLES = gql`
     activeTables {
       _id
       gameType
-      joinable
-      createdBy {
-        username
-      }
-      maxPlayers
+      lastModified
+      log
       name
+      password
       players {
+        id
         username
+        position
       }
+      rules {
+        players
+      }
+      status
     }
   }
 `;
