@@ -13,12 +13,11 @@ export default function Navbar(props: NavBarProps) {
   const email = profile?.email;
   const name = profile?.name;
 
-  console.log("from navbar:", user, props.hideLoginButtons);
+  console.log("from navbar:", user?.customData);
   let history = useHistory();
 
   const handleButton = async () => {
-    const u = await user?.functions.getCurrentTable();
-    console.log(u);
+    console.log(user?.customData);
   };
 
   return (

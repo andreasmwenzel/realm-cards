@@ -92,9 +92,9 @@ const LoginBody = ({ initialMode }: LogInMode) => {
     setSubmitting(true);
     setError((e) => ({ ...e, password: undefined }));
     try {
-      const user = await app.logIn(email, password);
+      await app.logIn(email, password);
 
-      console.log("from login", user);
+      console.log("from login", app.user?.customData);
       //check if user is in a game: if yes, redirect him to game
       //if (user.currentTable) {
       //  setInGame(true); //show rejoin message

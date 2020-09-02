@@ -6,13 +6,20 @@ import CurrentTables from "./CurrentTables";
 
 export default function GamesPage() {
   const { user } = useRealmApp();
+  console.log("from game's page: ", user.customData);
+
+  const handleLeave = async () => {
+    await user.functions.leaveTable();
+    await user.refreshCustomData();
+  }
 
   return (
     <Segment>
       <Navbar />
-      {user.currentTable ? (
+      {user.customData?.currentTable ? (
         <Container>
-          <div>Hello Current Game </div>
+          <div>Hello Current Game
+            <button onClick={() => handleLeave()}>Leave</button> </div>
         </Container>
       ) : (
           <Container>
