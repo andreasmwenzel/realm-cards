@@ -4,7 +4,7 @@ const playerCounts = {
   Hearts: [4],
 };
 // This function is the webhook's request handler.
-exports = async function (name, gameType, rules) {
+exports = async function (table) {
   // //Verify integrity of payload
   //     //payload.body includes a table with properties: name as string, gameType as string in
   //     //GameTypes, rules as object with players as number

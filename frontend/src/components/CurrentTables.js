@@ -33,7 +33,7 @@ export default function CurrentTable() {
       },
       gameType: "Hearts"
     }
-    const newTable = await user.functions.createNewTable(table);
+    const newTable = await user.functions.requestNewTable(table);
     console.log(newTable);
     refetch();
   };
