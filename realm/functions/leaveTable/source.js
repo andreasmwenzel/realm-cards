@@ -14,7 +14,5 @@ exports = async function () {
   } else {
     resp.message = "user was not at a table";
   }
-
-  response.setHeader("Content-Type", "application/json");
-  response.setBody(JSON.stringify(resp));
+  return resp;
 };
