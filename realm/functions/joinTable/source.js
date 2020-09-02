@@ -1,13 +1,11 @@
-exports = async function (payload, response) {
-  const body = EJSON.parse(payload.body.text());
-
+exports = async function (table, position) {
   const db = context.services.get("mongodb-atlas").db("cards");
   const users = db.collection("users");
   const tables = db.collection("active-tables");
 
-  const tableId = BSON.ObjectId(body.table); //throws error of body.table is not in the right form
-  const userId = BSON.ObjectId(body.user); //throws error if body.user is not in right form
-  let position = parseInt(body.position);
+  const tableId = BSON.ObjectId(table); //throws error of body.table is not in the right form
+  const userId = BSON.ObjectId(context.user.id); //throws error if body.user is not in right form
+
   //check that position is a number
   if (isNaN(position)) {
     throw new Error("position (number) in body or NaN");
@@ -41,9 +39,7 @@ exports = async function (payload, response) {
   //make sure position is valid
   const maxPlayers = table.rules.players;
   if (position < 0 || position + 1 > maxPlayers) {
-    throw new Error(
-      "Unable to join table: specified position is out of range for the table"
-    );
+    position = 0;
   }
 
   let takenSeats = [];

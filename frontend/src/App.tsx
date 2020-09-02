@@ -82,7 +82,7 @@ function Routes() {
 
 const RequireAuthentication: React.FC = (props) => {
   const app = useRealmApp();
-  console.log(app);
+  console.log("from reqAuth", app.user);
   //console.log(app);
 
   if (!app.user) {
