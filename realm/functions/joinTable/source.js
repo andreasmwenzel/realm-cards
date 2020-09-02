@@ -1,9 +1,9 @@
-exports = async function (table, position) {
+exports = async function (t, position) {
   const db = context.services.get("mongodb-atlas").db("cards");
   const users = db.collection("users");
   const tables = db.collection("active-tables");
 
-  const tableId = BSON.ObjectId(table); //throws error of body.table is not in the right form
+  const tableId = BSON.ObjectId(t); //throws error of body.table is not in the right form
   const userId = BSON.ObjectId(context.user.id); //throws error if body.user is not in right form
 
   //check that position is a number
@@ -78,12 +78,5 @@ exports = async function (table, position) {
     joinedTable
   );
 
-  response.setHeader("Content-Type", "application/json");
-  response.setBody(
-    JSON.stringify({
-      user: user,
-      table: joinedTable,
-      position: position,
-    })
-  );
+  return ({ user: user, table: joinedTable, position: position })
 };
