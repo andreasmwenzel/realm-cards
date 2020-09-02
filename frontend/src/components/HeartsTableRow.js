@@ -24,9 +24,10 @@ export default function TableDisplay({ table }) {
   const handleJoinGame = async (pos) => {
     try {
       console.log(
-        `joinging table ${table._id} at position ${pos} user ${user?.profile?.email}`
+        `joining table ${table._id} at position ${pos} user ${user?.profile?.email}`
       );
       const res = await user.functions.joinTable(table._id, pos)
+      await user.refreshCustomData();
       history.push("/games");
     } catch (e) {
       console.log(`Error: ${e}`);

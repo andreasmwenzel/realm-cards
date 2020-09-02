@@ -86,7 +86,7 @@ const RequireAuthentication: React.FC = (props) => {
   //console.log(app);
 
   if (!app.user) {
-    app.logIn("one@one.com", "password");
+    app.logInAnon();
     // if (!props.needEmail) {
     //   app.logInAnon();
     // } else {

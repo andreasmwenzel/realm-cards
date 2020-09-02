@@ -26,7 +26,16 @@ export default function CurrentTable() {
     console.log(`Network Status: ${networkStatus}`);
   };
   const handleNewTable = async () => {
-    console.log("requested new table");
+    const table = {
+      name: `${user.customData.name} table ${Math.floor(Math.random() * 10) + 1}`,
+      rules: {
+        players: 4
+      },
+      gameType: "Hearts"
+    }
+    const newTable = await user.functions.createNewTable(table);
+    console.log(newTable);
+    refetch();
   };
 
   function renderTableType(table) {
@@ -91,10 +100,10 @@ export default function CurrentTable() {
           data.activeTables?.length ? (
             data.activeTables.map((table) => renderTableType(table))
           ) : (
-            <Table.Row>
-              <Table.Cell>There are no active Tables</Table.Cell>
-            </Table.Row>
-          )
+              <Table.Row>
+                <Table.Cell>There are no active Tables</Table.Cell>
+              </Table.Row>
+            )
         ) : null}
       </Table.Body>
     </Table>
