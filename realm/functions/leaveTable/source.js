@@ -1,6 +1,4 @@
-exports = async function (payload, response) {
-  const body = EJSON.parse(payload.body.text());
-
+exports = async function () {
   const userId = BSON.ObjectId(context.user.id); //throws error if body.user is not in right form
   const user = await context.functions.execute("removeTableFromUser", userId); //returns user before removing table
 
