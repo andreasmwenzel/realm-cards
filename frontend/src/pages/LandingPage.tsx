@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "../components/common/Navbar";
 import { useHistory } from "react-router-dom";
 import { Segment, Container, Icon, Button, Header } from "semantic-ui-react";
 

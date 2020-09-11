@@ -1,6 +1,6 @@
 import React from "react";
 import { Table, Button } from "semantic-ui-react";
-import { useRealmApp } from "../realm/RealmApp";
+import { useRealmApp } from "../../realm/RealmApp";
 import { useHistory } from "react-router-dom";
 import { useSubscription } from "@apollo/react-hooks";
 const DEBUG = true;
@@ -37,7 +37,10 @@ export default function TableDisplay({ table }) {
   return (
     <Table.Row>
       <Table.Cell>{table.name}</Table.Cell>
-      <Table.Cell>Players: {table.rules.players}</Table.Cell>
+      <Table.Cell>{table.gameType}</Table.Cell>
+      <Table.Cell>
+        Players: {table.rules.players}
+      </Table.Cell>
       <Table.Cell>
         {playersLengthArray.map((pos) => (
           <div key={pos}>
@@ -55,7 +58,6 @@ export default function TableDisplay({ table }) {
           </div>
         ))}
       </Table.Cell>
-      <Table.Cell>{}</Table.Cell>
     </Table.Row>
   );
 }

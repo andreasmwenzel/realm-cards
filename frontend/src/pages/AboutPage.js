@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Segment } from "semantic-ui-react";
-import Navbar from "./Navbar";
+import Navbar from "../components/common/Navbar";
 
 export default function AboutPage() {
   return (

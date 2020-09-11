@@ -28,6 +28,6 @@ exports = async function (table) {
   if (context.user.currentTable) {
     throw new Error("user is already in a game");
   }
-  return await context.functions.execute("createNewTable", context.user.id, table)
+  return await context.functions.execute("createNewTable", context.user, table)
 
 };

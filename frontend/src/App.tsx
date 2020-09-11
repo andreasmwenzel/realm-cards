@@ -4,14 +4,13 @@ import RealmApp, { useRealmApp } from "./realm/RealmApp";
 import RealmApolloProvider from "./realm/RealmApolloProvider";
 
 import "./App.css";
-import Body from "./components/Body";
-import LoginPage from "./components/LoginPage";
-import LandingPage from "./components/LandingPage";
-import GamesPage from "./components/GamesPage";
-import AboutPage from "./components/AboutPage";
-import UserPage from "./components/UserPage";
-import UserConfirmationPage from "./components/UserConfirmationPage";
-import UserPasswordResetPage from "./components/UserPasswordResetPage";
+import LoginPage from "./pages/LoginPage";
+import LandingPage from "./pages/LandingPage";
+import GamesPage from "./pages/GamesPage";
+import AboutPage from "./pages/AboutPage";
+import UserPage from "./pages/UserPage";
+import UserConfirmationPage from "./pages/UserConfirmationPage";
+import UserPasswordResetPage from "./pages/UserPasswordResetPage";
 
 import { Loader } from "semantic-ui-react";
 
@@ -21,8 +20,6 @@ import {
   Route,
   Link,
   useLocation,
-  Redirect,
-  useHistory,
 } from "react-router-dom";
 
 const App: React.FC = (props) => {
@@ -46,24 +43,19 @@ function Routes() {
   //const { user, logOut, logInAnon } = useRealmApp();
   return (
     <Switch>
-      <Route exact path="/" component={LandingPage}></Route>
-      <Route path="/games/">
-        <RequireAuthentication>
-          <GamesPage />
-        </RequireAuthentication>
+      <Route exact path="/">
+        <LandingPage />
       </Route>
+
+      <Route path="/about/" component={AboutPage}></Route>
+
       <Route path="/signup/">
         <LoginPage initialMode="signup" />
       </Route>
       <Route path="/login">
         <LoginPage initialMode="login" />
       </Route>
-      <Route path="/about/" component={AboutPage}></Route>
-      <Route exact path="/user/">
-        <RequireAuthentication>
-          <UserPage />
-        </RequireAuthentication>
-      </Route>
+
       <Route exact path="/user/confirm">
         <UserConfirmationPage
           token={query.get("token")}
@@ -76,28 +68,26 @@ function Routes() {
           tokenId={query.get("tokenId")}
         />
       </Route>
+
+      <Route exact path="/user/">
+        <RequireAuthentication>
+          <UserPage />
+        </RequireAuthentication>
+      </Route>
+
+      <Route path="/games/">
+        <RequireAuthentication>
+          <GamesPage />
+        </RequireAuthentication>
+      </Route>
     </Switch>
   );
 }
 
 const RequireAuthentication: React.FC = (props) => {
   const app = useRealmApp();
-  console.log("from reqAuth", app.user);
-  //console.log(app);
-
   if (!app.user) {
     app.logInAnon();
-    // if (!props.needEmail) {
-    //   app.logInAnon();
-    // } else {
-    //   return <Redirect to="/login" />;
-    // }
   }
-
-  return app.user ? (
-    <RealmApolloProvider>{props.children}</RealmApolloProvider>
-  ) : (
-      //TODO Make this a spinning loading thingy
-      <Loader active inline="centered" />
-    );
+  return <RealmApolloProvider>{props.children}</RealmApolloProvider>
 }

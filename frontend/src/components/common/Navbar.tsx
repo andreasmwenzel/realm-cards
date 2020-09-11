@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Button, Container, Menu } from "semantic-ui-react";
 import { useHistory } from "react-router-dom";
-import { useRealmApp } from "../realm/RealmApp";
+import { useRealmApp } from "../../realm/RealmApp";
 
 interface NavBarProps {
   hideLoginButtons: boolean | undefined;
@@ -13,7 +13,6 @@ export default function Navbar(props: NavBarProps) {
   const email = profile?.email;
   const name = profile?.name;
 
-  console.log("from navbar:", user?.customData);
   let history = useHistory();
 
   const handleButton = async () => {

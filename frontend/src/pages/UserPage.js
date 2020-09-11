@@ -1,6 +1,6 @@
 import React from "react";
 import { Segment, Container, Icon, Button, Header } from "semantic-ui-react";
-import Navbar from "./Navbar";
+import Navbar from "../components/common/Navbar";
 
 export default function UserPage() {
   return (

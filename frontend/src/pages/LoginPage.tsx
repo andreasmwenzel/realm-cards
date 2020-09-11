@@ -12,7 +12,7 @@ import { useHistory } from "react-router-dom";
 import validator from "validator";
 import { useRealmApp } from "../realm/RealmApp";
 import parseAuthenticationError from "../realm/parseAuthenticationError";
-import Navbar from "./Navbar";
+import Navbar from "../components/common/Navbar";
 
 
 type LogInMode = {
@@ -32,18 +32,20 @@ const LoginPage = ({ initialMode }: LogInMode) => {
 const LoginBody = ({ initialMode }: LogInMode) => {
   const app = useRealmApp();
   let history = useHistory();
-
-  const [mode, setMode] = React.useState("login"); //states "login" or "register"
+  if (app.user?.profile.email) {
+    history.push("/games")
+  }
+  const [mode, setMode] = React.useState<"login" | "register">("login"); //states "login" or "register"
 
   const toggleMode = () => {
     setMode((oldMode) => (oldMode === "login" ? "register" : "login"));
   };
 
   // Keep track of form input state
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [submitting, setSubmitting] = React.useState(false);
-  const [inGame, setInGame] = React.useState(false);
+  const [email, setEmail] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+  const [submitting, setSubmitting] = React.useState<boolean>(false);
+  const [inGame, setInGame] = React.useState<boolean>(false);
   // Whenever the mode changes, clear the form inputs
   React.useEffect(() => {
     setEmail("");
@@ -93,14 +95,7 @@ const LoginBody = ({ initialMode }: LogInMode) => {
     setError((e) => ({ ...e, password: undefined }));
     try {
       await app.logIn(email, password);
-
-      console.log("from login", app.user?.customData);
-      //check if user is in a game: if yes, redirect him to game
-      //if (user.currentTable) {
-      //  setInGame(true); //show rejoin message
-      //} else {
-      history.push("/");
-      //}
+      history.push("/games");
     } catch (err) {
       return handleAuthenticationError(err);
     }
