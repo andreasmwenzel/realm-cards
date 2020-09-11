@@ -6,7 +6,7 @@ exports = async function (user, table) {
     rules: {
       players: table.rules.players,
     },
-    createdBy: user._id,
+    createdBy: BSON.ObjectId(user.id),
     status: "created",
     players: [],
     tableLogs: ["Created Table"],
