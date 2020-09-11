@@ -29,6 +29,8 @@ export default function StartNewTable() {
   const [tableName, setTableName] = React.useState<string>("");
   const [gameType, setGameType] = React.useState<string | undefined>(GameTypes.Hearts)
   const [rules, setRules] = React.useState<Rule[]>([{ id: "players", min: 4, max: 4, default: 4, current: 4 }]);
+  const [submitting, setSubmitting] = React.useState<boolean>(false);
+
 
   let playerOptions: { min: number, max: number } = { min: 0, max: 0 };
   React.useEffect(() => {
@@ -55,25 +57,26 @@ export default function StartNewTable() {
   const handleNewTable = async () => {
     const isValidTableName = validator.isAscii(tableName) && validator.isByteLength(tableName, { min: 1, max: 20 });
     if (isValidTableName) {
-      // try {
-      //   setSubmitting(true);
-      //   // Register the user and, if successful, log them in
-      //   await app.registerUser(email, password);
-      //   //TODO: Show a need confirmation message
-      //   history.push("/user/confirm");
-      // } catch (err) {
-      //   handleAuthenticationError(err);
-      // }
-      const playersRule = rules.find(e => e.id == "players")
-      const table = {
-        name: tableName,
-        rules: {
-          players: playersRule?.current
-        },
-        gameType: gameType
+      let newTable;
+      try {
+        //create the new table
+        const playersRule = rules.find(e => e.id == "players")
+        const table = {
+          name: tableName,
+          rules: {
+            players: playersRule?.current
+          },
+          gameType: gameType
+        }
+        newTable = await user?.functions.requestNewTable(table);
+        console.log(newTable);
+
+        //join the new table
+        newTable = await user?.functions.joinTable(newTable.id);
+      } catch (err) {
+        console.log(err);
       }
-      const newTable = await user?.functions.requestNewTable(table);
-      console.log(newTable);
+
     } else {
       setError((err) => ({ ...err, tableName: "Must be between 1 and 20 ascii characters" }));
     }
