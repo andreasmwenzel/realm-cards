@@ -17,5 +17,5 @@ exports = async function (user, table) {
     .db("cards")
     .collection("active-tables")
     .insertOne(newTable);
-  return { tableId: response.insertedId.asString() };
+  return { tableId: response.insertedId.toString() };
 };
