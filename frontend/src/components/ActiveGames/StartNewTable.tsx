@@ -8,6 +8,8 @@ import {
 } from "semantic-ui-react";
 import validator from "validator";
 import NumericInput from "react-numeric-input";
+import { useHistory } from "react-router-dom";
+
 
 //TODO: This should be defines as a rule, not in a component
 enum GameTypes {
@@ -25,6 +27,7 @@ type Rule = {
 
 export default function StartNewTable() {
   const { user } = useRealmApp();
+  let history = useHistory();
   const [modalOpen, setModalOpen] = React.useState<boolean>(false); //states "login" or "register"
   const [tableName, setTableName] = React.useState<string>("");
   const [gameType, setGameType] = React.useState<string | undefined>(GameTypes.Hearts)
@@ -72,7 +75,10 @@ export default function StartNewTable() {
         console.log(newTable);
 
         //join the new table
-        newTable = await user?.functions.joinTable(newTable.id);
+        newTable = await user?.functions.joinTable(newTable.tableId, 0);
+
+        await user?.refreshCustomData();
+        history.push("/games");
       } catch (err) {
         console.log(err);
       }
