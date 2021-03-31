@@ -6,7 +6,7 @@ exports = async function (user, table) {
     rules: {
       players: table.rules.players,
     },
-    createdBy: BSON.ObjectId(user.id),
+    createdBy: user._id,
     status: "created",
     players: [],
     tableLogs: ["Created Table"],
@@ -17,5 +17,5 @@ exports = async function (user, table) {
     .db("cards")
     .collection("active-tables")
     .insertOne(newTable);
-  return { tableId: response.insertedId.toString() };
+  return { tableId: response.insertedId };
 };

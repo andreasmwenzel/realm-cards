@@ -3,34 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@apollo/client": "^3.1.0",
     "@apollo/react-hooks": "^3.1.5",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^26.0.12",
-    "@types/react": "^16.9.49",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-numeric-input": "^2.2.3",
-    "@types/react-router-dom": "^5.1.5",
-    "@types/validator": "^13.1.0",
     "apollo-boost": "^0.4.9",
     "apollo-link-context": "^1.0.20",
     "axios": "^0.21.1",
     "graphql": "^15.1.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-numeric-input": "^2.2.3",
     "react-router-dom": "^5.2.0",
-<<<<<<< HEAD
-    "react-scripts": "^4.0.3",
-    "realm-web": "^1.2.1",
-=======
-    "react-scripts": "^3.4.3",
+    "react-scripts": "3.4.1",
     "realm-web": "^0.8.1",
->>>>>>> d729c7973483609cfc8a09998d4898f61dead0f4
     "semantic-ui-react": "^0.88.2",
-    "typescript": "^4.0.2",
     "validator": "^13.1.1"
   },
   "scripts": {
